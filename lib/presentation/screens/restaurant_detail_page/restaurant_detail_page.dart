@@ -66,7 +66,9 @@ class RestaurantDetailsPage extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return HorizontalFoodTile(
-                      food: foodList[index],
+                      food: restaurant.title == "KFC"
+                          ? kfcList[index]
+                          : foodList[index],
                     );
                   },
                   itemCount: foodList.length,
