@@ -1,7 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/model/food.dart';
+import 'package:food_delivery_app/data/model/restaurant.dart';
+import 'package:food_delivery_app/presentation/screens/food_detail_page/food_detail_page.dart';
+import 'package:food_delivery_app/presentation/widgets/horizontal_food_tile.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
-  const RestaurantDetailsPage({Key? key}) : super(key: key);
+  final Restaurant restaurant;
+  const RestaurantDetailsPage({Key? key, required this.restaurant})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,63 +29,139 @@ class RestaurantDetailsPage extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
         ),
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: _buildHeader(),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "KFX",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
-                    ),
-                    Text(
-                      "Radhe Radhe",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
-                    ),
-                    Text(
-                      "Description/ About Restaurant",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
-                    ),
-                    Text(
-                      "KFC is an American fast food restaurant chain headquartered in Louisville, Kentucky that specializes in fried chicken. It is the world's second-largest restaurant chain after McDonald's, with 22,621 locations globally in 150 countries as of December 2019. ",
-                    )
-                  ],
-                ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              _buildDescription(),
+              SizedBox(
+                height: 20,
               ),
-            )
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.restaurant_menu,
+                    color: Colors.red,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "MENU",
+                    style: TextStyle(
+                        color: Colors.black.withOpacity(0.8),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25),
+                  )
+                ],
+              ),
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return HorizontalFoodTile(
+                      food: foodList[index],
+                    );
+                  },
+                  itemCount: foodList.length,
+                ),
+              )
+            ],
+          ),
         ));
+  }
+
+  Widget _buildDescription() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            restaurant.title,
+            style: TextStyle(
+              color: Colors.black.withOpacity(0.7),
+              fontWeight: FontWeight.w900,
+              fontSize: 35,
+            ),
+          ),
+          TextWithIcon(
+            icon: Icon(
+              Icons.location_on,
+              color: Colors.black.withOpacity(0.5),
+            ),
+            text: restaurant.location,
+          ),
+          const SizedBox(height: 15),
+          Text(
+            "About Restaurant",
+            style: TextStyle(
+              color: Colors.black.withOpacity(0.7),
+              fontWeight: FontWeight.w900,
+              fontSize: 25,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              "KFC is an American fast food restaurant chain headquartered in Louisville, Kentucky that specializes in fried chicken. It is the world's second-largest restaurant chain after McDonald's, with 22,621 locations globally in 150 countries as of December 2019. ",
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              TextWithIcon(
+                icon: const Icon(
+                  Icons.local_taxi,
+                  size: 30,
+                ),
+                text: restaurant.deliveryTime.toString(),
+              ),
+              const SizedBox(width: 10),
+              const TextWithIcon(
+                icon: Icon(
+                  Icons.food_bank,
+                  color: Colors.red,
+                ),
+                text: "Fast Food",
+              ),
+              const SizedBox(width: 10),
+              const TextWithIcon(
+                icon: Icon(
+                  Icons.star,
+                  color: Colors.yellow,
+                ),
+                text: "4",
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Container _buildHeader() {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/kfc_default.jpg"),
-              fit: BoxFit.cover)),
-      height: 300,
+              image: AssetImage(restaurant.defaultImage), fit: BoxFit.cover)),
+      height: 280,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          Container(
-            height: 150,
-          ),
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: Container(
-              height: 100,
+              height: 50,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -88,9 +172,9 @@ class RestaurantDetailsPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom: 0,
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black45, width: 1),
                   color: Colors.white,
@@ -98,7 +182,7 @@ class RestaurantDetailsPage extends StatelessWidget {
               height: 100,
               width: 100,
               child: Image.asset(
-                "assets/images/kfc_logo.png",
+                restaurant.logo,
                 fit: BoxFit.contain,
               ),
             ),
