@@ -35,7 +35,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             children: [
               _buildHeader(),
               _buildDescription(),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(

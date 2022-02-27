@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
+import 'package:food_delivery_app/data/repository/home_page_repo.dart';
 
 import 'package:food_delivery_app/presentation/screens/restaurant_detail_page/restaurant_detail_page.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePageRepository repository = HomePageRepository();
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,16 @@ class HomePage extends StatelessWidget {
                         fontSize: 20),
                   ),
                 ),
-                _buildFoodListView(context, foodList, 280, 230),
+                FutureBuilder(
+                    future: repository.getDefaultFood(),
+                    builder: (context, AsyncSnapshot<List<Food>> snapshot) {
+                      if (snapshot.hasData) {
+                        return _buildFoodListView(
+                            context, snapshot.data!, 280, 230);
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
                 const SizedBox(
                   height: 15,
                 ),

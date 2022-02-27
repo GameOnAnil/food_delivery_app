@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/presentation/screens/home_page/home_page.dart';
-import 'package:food_delivery_app/presentation/screens/restaurant_detail_page/restaurant_detail_page.dart';
+import 'package:food_delivery_app/presentation/screens/test_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) => const HomePage(),
+        "/": (context) => HomePage(),
       },
     );
   }

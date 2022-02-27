@@ -1,0 +1,40 @@
+{
+    "foods": [
+        {
+            "id": 1,
+            "name": "Pizza",
+            "price": 700.0,
+            "available": "10 am to 7 pm",
+            "address": "Radhe Radhe",
+            "rating": 4.5,
+            "image": "assets/images/pizza_def.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Sekuwa",
+            "price": 2500.0,
+            "available": "10 am to 7 pm",
+            "address": "Radhe Radhe",
+            "rating": 4.5,
+            "image": "assets/images/sekuwa.jpeg"
+        },
+        {
+            "id": 3,
+            "name": "Burger",
+            "price": 1000.0,
+            "available": "10 am to 7 pm",
+            "address": "Radhe Radhe",
+            "rating": 5.0,
+            "image": "assets/images/burger.jpeg"
+        },
+        {
+            "id": 4,
+            "name": "Cake",
+            "price": 100.0,
+            "available": "10 am to 7 pm",
+            "address": "Radhe Radhe",
+            "rating": 3.0,
+            "image": "assets/images/cake.jpeg"
+        }
+    ]
+}
