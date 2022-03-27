@@ -11,6 +11,7 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("REstaurant:" + restaurant.defaultImage.toString());
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -31,7 +32,7 @@ class RestaurantCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                restaurant.defaultImage,
+                "assets/images/${restaurant.logo}.png",
                 fit: BoxFit.cover,
                 height: 150,
                 width: 250,
@@ -44,7 +45,7 @@ class RestaurantCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset(
-                      restaurant.logo,
+                      "assets/images/" + restaurant.logo + ".png",
                       width: 50,
                       height: 50,
                       fit: BoxFit.cover,

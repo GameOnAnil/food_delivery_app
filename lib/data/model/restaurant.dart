@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Restaurant {
   int? id;
   String title;
@@ -15,6 +17,35 @@ class Restaurant {
     required this.logo,
     required this.defaultImage,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'location': location,
+      'deliveryTime': deliveryTime,
+      'logo': logo,
+      'defaultImage': defaultImage,
+    };
+  }
+
+  factory Restaurant.fromMap(Map<String, dynamic> map) {
+    return Restaurant(
+      id: map['id']?.toInt(),
+      title: map['title'] ?? '',
+      description: map['description'] ?? '',
+      location: map['location'] ?? '',
+      deliveryTime: map['deliveryTime'] ?? '',
+      logo: map['logo'] ?? '',
+      defaultImage: map['defaultImage'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Restaurant.fromJson(String source) =>
+      Restaurant.fromMap(json.decode(source));
 }
 
 List<Restaurant> restaurantLists = [

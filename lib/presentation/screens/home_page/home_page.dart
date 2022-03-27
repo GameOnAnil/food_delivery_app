@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
-import 'package:food_delivery_app/data/network/food_api.dart';
 import 'package:food_delivery_app/data/repository/home_page_repo.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final foodFutureProvider = FutureProvider.autoDispose<List<Food>?>((ref) async {
-  ref.maintainState = true;
-  final foodService = ref.read(foodServiceProvider);
-  final foods = await foodService.getFoods();
-  return foods;
-});
+import 'package:food_delivery_app/provider/foodprovider.dart';
 
 class HomePage extends StatelessWidget {
   HomePageRepository repository = HomePageRepository();
@@ -85,7 +78,32 @@ class HomePage extends StatelessWidget {
                         fontSize: 20),
                   ),
                 ),
-                _buildRestaurantList(context),
+                //_buildRestaurantList(context,restaurants,),
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ref.watch(restaurantFutureProvider).when(
+                          error: (e, s) => Center(
+                            child: Text("ERROR${e.toString()}"),
+                          ),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          data: (restaurants) {
+                            if (restaurants != null) {
+                              return RefreshIndicator(
+                                  onRefresh: () {
+                                    return ref.refresh(
+                                        restaurantFutureProvider.future);
+                                  },
+                                  child: _buildRestaurantList(
+                                      context, restaurants, 280, 200));
+                            }
+
+                            return const Text("No Data");
+                          },
+                        );
+                  },
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -99,17 +117,6 @@ class HomePage extends StatelessWidget {
                         fontSize: 20),
                   ),
                 ),
-                // FutureBuilder(
-                //     future: repository.getDefaultFood(),
-                //     builder: (context, AsyncSnapshot<List<Food>> snapshot) {
-                //       if (snapshot.hasData) {
-                //         return _buildFoodListView(
-                //             context, snapshot.data!, 280, 230);
-                //       } else {
-                //         return CircularProgressIndicator();
-                //       }
-                //     }),
-
                 Consumer(
                   builder: (context, ref, child) {
                     return ref.watch(foodFutureProvider).when(
@@ -130,7 +137,7 @@ class HomePage extends StatelessWidget {
                                       context, foods, 280, 200));
                             }
 
-                            return Text("No Data");
+                            return const Text("No Data");
                           },
                         );
                   },
@@ -157,19 +164,20 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  SizedBox _buildRestaurantList(BuildContext context) {
+  SizedBox _buildRestaurantList(BuildContext context,
+      List<Restaurant> restaurants, double height, double width) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 230,
+      height: height,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return RestaurantCard(
-            restaurant: restaurantLists[index],
+            restaurant: restaurants[index],
           );
         },
-        itemCount: restaurantLists.length,
+        itemCount: restaurants.length,
       ),
     );
   }
@@ -192,16 +200,5 @@ class HomePage extends StatelessWidget {
         itemCount: foodList.length,
       ),
     );
-  }
-}
-
-class FoodListWidget extends ConsumerWidget {
-  const FoodListWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Container();
   }
 }
