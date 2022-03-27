@@ -33,7 +33,7 @@ List<Restaurant> restaurantLists = [
       location: "Radhe, Radhe",
       deliveryTime: "10am to 5 pm",
       logo: 'assets/images/pizza_logo.png',
-      defaultImage: "assets/images/pizza_def.jpg"),
+      defaultImage: "assets/images/pizza_def.jpeg"),
   Restaurant(
       title: "KFC",
       description:

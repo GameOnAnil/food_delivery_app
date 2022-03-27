@@ -28,7 +28,7 @@ class FoodCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Stack(alignment: Alignment.bottomLeft, children: [
             Image.asset(
-              food.image,
+              "assets/images/" + food.image + ".jpeg",
               fit: BoxFit.cover,
               height: height,
               width: width,
