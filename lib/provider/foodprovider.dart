@@ -1,6 +1,5 @@
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/data/network/food_api.dart';
-
 import '../data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

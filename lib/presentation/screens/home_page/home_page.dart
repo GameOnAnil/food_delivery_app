@@ -155,7 +155,7 @@ class HomePage extends StatelessWidget {
                         fontSize: 20),
                   ),
                 ),
-                _buildFoodListView(context, kfcList, 280, 200),
+                // _buildFoodListView(context, kfcList, 280, 200),
               ],
             ),
           ),

@@ -32,7 +32,7 @@ class RestaurantCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                "assets/images/${restaurant.logo}.png",
+                "assets/images/${restaurant.defaultImage}.jpeg",
                 fit: BoxFit.cover,
                 height: 150,
                 width: 250,

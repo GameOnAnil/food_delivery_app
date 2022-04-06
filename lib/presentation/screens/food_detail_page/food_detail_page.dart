@@ -146,7 +146,7 @@ class FoodDetailPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text("Rs: " + food.price.toInt().toString(),
+                  Text("Rs: " + food.price.toString(),
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white,

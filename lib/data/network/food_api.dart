@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:food_delivery_app/data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 
 import 'custom_exception.dart';
@@ -19,13 +16,11 @@ class FoodService {
   Future<List<Food>> getFoods() async {
     try {
       final response =
-          await _dio.get("https://ourfoodapi.herokuapp.com/api/foods");
+          await _dio.get("https://food-api-mongo.herokuapp.com/foods");
 
       final jsonResult = List<Map<String, dynamic>>.from(response.data);
 
-      List<Food> foods =
-          jsonResult.map((movie) => Food.fromMap(movie)).toList();
-
+      List<Food> foods = jsonResult.map((food) => Food.fromMap(food)).toList();
       return foods;
     } on DioError catch (e) {
       throw DioExceptions.fromDioError(e).toString();
@@ -35,7 +30,7 @@ class FoodService {
   Future<List<Restaurant>> getRestaurants() async {
     try {
       final response =
-          await _dio.get("https://ourfoodapi.herokuapp.com/api/restaurants");
+          await _dio.get("https://food-api-mongo.herokuapp.com/restaurants");
 
       final jsonResult = List<Map<String, dynamic>>.from(response.data);
 

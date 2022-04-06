@@ -1,44 +1,48 @@
 import 'dart:convert';
 
 class Food {
-  int? id;
+  String sId;
   String name;
-  double price;
+  int price;
   String available;
   String address;
   double rating;
   String image;
+  int iV;
   Food({
-    this.id,
+    required this.sId,
     required this.name,
     required this.price,
     required this.available,
     required this.address,
     required this.rating,
     required this.image,
+    required this.iV,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      '_id': sId,
       'name': name,
       'price': price,
       'available': available,
       'address': address,
       'rating': rating,
       'image': image,
+      '__v': iV,
     };
   }
 
   factory Food.fromMap(Map<String, dynamic> map) {
     return Food(
-      id: map['id']?.toInt(),
+      sId: map['_id'] ?? '',
       name: map['name'] ?? '',
-      price: map['price']?.toDouble() ?? 0.0,
+      price: map['price']?.toInt() ?? 0,
       available: map['available'] ?? '',
       address: map['address'] ?? '',
       rating: map['rating']?.toDouble() ?? 0.0,
       image: map['image'] ?? '',
+      iV: map['__v']?.toInt() ?? 0,
     );
   }
 
@@ -46,65 +50,3 @@ class Food {
 
   factory Food.fromJson(String source) => Food.fromMap(json.decode(source));
 }
-
-List<Food> foodList = [
-  Food(
-      name: "Pizza",
-      price: 700,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 4.5,
-      image: "assets/images/pizza_def.jpg"),
-  Food(
-      name: "Sekuwa",
-      price: 2500,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 4.5,
-      image: "assets/images/sekuwa.jpeg"),
-  Food(
-      name: "Burger",
-      price: 1000,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 5,
-      image: "assets/images/burger.jpeg"),
-  Food(
-      name: "Cake",
-      price: 100,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 3,
-      image: "assets/images/cake.jpeg"),
-];
-
-List<Food> kfcList = [
-  Food(
-      name: "2 Pc Hot & Crispy",
-      price: 480,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 4.5,
-      image: "assets/images/two_peace.png"),
-  Food(
-      name: "Chicken & Fries Bucket",
-      price: 599,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 4.5,
-      image: "assets/images/bucket.jpeg"),
-  Food(
-      name: "Boneless Strips",
-      price: 385,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 5,
-      image: "assets/images/boneless_strips.png"),
-  Food(
-      name: "6 Pc Chicken Strips",
-      price: 699,
-      available: "10 am to 7 pm",
-      address: "Radhe Radhe",
-      rating: 3,
-      image: "assets/images/six_strips.jpg"),
-];
