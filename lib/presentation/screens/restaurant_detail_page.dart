@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
-import 'package:food_delivery_app/presentation/screens/food_detail_page/food_detail_page.dart';
-import 'package:food_delivery_app/presentation/widgets/horizontal_food_tile.dart';
+import 'package:food_delivery_app/presentation/screens/food_detail_page.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   final Restaurant restaurant;
@@ -150,7 +149,9 @@ class RestaurantDetailsPage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(restaurant.defaultImage), fit: BoxFit.cover)),
+              image:
+                  AssetImage("assets/images/${restaurant.defaultImage}.jpeg"),
+              fit: BoxFit.cover)),
       height: 280,
       child: Stack(
         alignment: Alignment.topCenter,
@@ -181,7 +182,7 @@ class RestaurantDetailsPage extends StatelessWidget {
               height: 100,
               width: 100,
               child: Image.asset(
-                restaurant.logo,
+                "assets/images/${restaurant.logo}.png",
                 fit: BoxFit.contain,
               ),
             ),

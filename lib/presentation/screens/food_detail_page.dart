@@ -93,7 +93,7 @@ class FoodDetailPage extends StatelessWidget {
           ),
           const Expanded(child: SizedBox()),
           _buildAddButton(context),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
         ],
@@ -184,7 +184,8 @@ class FoodDetailPage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(food.image), fit: BoxFit.cover)),
+                    image: AssetImage("assets/images/" + food.image + ".jpeg"),
+                    fit: BoxFit.cover)),
           ),
           Positioned(
             bottom: 0,

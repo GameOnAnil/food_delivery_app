@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "879540621070",
+    "project_id": "flutter-food-delivary-app",
+    "storage_bucket": "flutter-food-delivary-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879540621070:android:fc13270840f5392f4f515f",
+        "android_client_info": {
+          "package_name": "com.gameonanil.food_delivery_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879540621070-pe8stv4ienn5e3jralhte35bmvlqhh7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdQjBZjdqPXNZslFhF0JmVSlVQk_yJJuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879540621070-pe8stv4ienn5e3jralhte35bmvlqhh7s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "879540621070-m1vc8u13c01qo18lufg9uldmldp6g7hr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gameonanil.foodDeliveryApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
