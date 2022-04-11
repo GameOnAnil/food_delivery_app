@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/provider/cart_item_count_provider.dart';
 
 class FoodDetailPage extends StatelessWidget {
   final Food food;
@@ -102,77 +104,83 @@ class FoodDetailPage extends StatelessWidget {
   }
 
   Widget _buildAddButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.orange[500],
-                  borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "-",
-                      style: TextStyle(
-                          fontSize: 35,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
+    return Consumer(builder: (context, ref, child) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.orange[500],
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref.read(cartItemCountProvider).minusOne();
+                      },
+                      child: const Text(
+                        "-",
+                        style: TextStyle(
+                            fontSize: 35,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                  const Text(
-                    "2",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "+",
-                      style: TextStyle(
+                    Text(
+                      ref.watch(cartItemCountProvider).count.toString(),
+                      style: const TextStyle(
                           fontSize: 25,
                           color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("Rs: " + food.price.toString(),
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500))
-                ],
+                    TextButton(
+                      onPressed: () {
+                        ref.read(cartItemCountProvider).plusOne();
+                      },
+                      child: const Text(
+                        "+",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text("Rs: " + food.price.toString(),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500))
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5),
-            height: 50,
-            decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(10)),
-            child: IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-                size: 30,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 5),
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(10)),
+              child: IconButton(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {},
               ),
-              onPressed: () {},
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 
   SizedBox _buildBackgoundImage() {

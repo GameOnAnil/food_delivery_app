@@ -5,20 +5,23 @@ import 'package:food_delivery_app/data/repository/home_page_repo.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/provider/auth_provider.dart';
 import 'package:food_delivery_app/provider/foodprovider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   HomePageRepository repository = HomePageRepository();
   HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            ref.watch(authServiceProvider).signOut();
+          },
           icon: const Icon(
             Icons.restaurant_menu_outlined,
             color: Colors.black,
@@ -103,9 +106,6 @@ class HomePage extends StatelessWidget {
                           },
                         );
                   },
-                ),
-                const SizedBox(
-                  height: 15,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 8.0),

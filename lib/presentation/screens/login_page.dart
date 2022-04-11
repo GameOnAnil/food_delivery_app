@@ -1,116 +1,171 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/presentation/screens/forgot_pass_page.dart';
+import 'package:food_delivery_app/presentation/screens/sign_up_page.dart';
+import 'package:food_delivery_app/provider/auth_provider.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+class LoginPage extends ConsumerWidget {
+  LoginPage({Key? key}) : super(key: key);
 
-// class LoginPage extends ConsumerWidget {
-//   LoginPage({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
-//   final GlobalKey<FormState> _formKey = GlobalKey();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
-//   final emailController = TextEditingController();
-//   final passController = TextEditingController();
+  void validate(WidgetRef ref) {
+    if (_formKey.currentState!.validate()) {
+      ref
+          .watch(authServiceProvider)
+          .signIn(email: emailController.text, password: passController.text)
+          .whenComplete(() => Fluttertoast.showToast(msg: "Signed In"));
+    } else {
+      Fluttertoast.showToast(
+          msg: "Please Enter Detail",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM);
+    }
+  }
 
-//   void validate(WidgetRef ref) {
-//     if (_formKey.currentState!.validate()) {
-//       debugPrint(
-//           "EMail${emailController.text} and Pass:${passController.text}");
-//       ref
-//           .watch(authServiceProvider)
-//           .signIn(email: emailController.text, password: passController.text);
-//     } else {}
-//   }
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       body: Form(
-//         key: _formKey,
-//         child: Padding(
-//             padding: const EdgeInsets.all(10),
-//             child: ListView(
-//               children: <Widget>[
-//                 Container(
-//                   alignment: Alignment.center,
-//                   padding: const EdgeInsets.all(10),
-//                   child: const Text(
-//                     'Flutter Firebase Demo',
-//                     style: TextStyle(
-//                         color: Colors.blue,
-//                         fontWeight: FontWeight.w500,
-//                         fontSize: 30),
-//                   ),
-//                 ),
-//                 Container(
-//                   padding: const EdgeInsets.all(10),
-//                   child: TextFormField(
-//                     validator: ((value) {
-//                       if (value!.isEmpty || !value.contains('@')) {
-//                         return 'Invalid email!';
-//                       }
-//                       return null;
-//                     }),
-//                     controller: emailController,
-//                     decoration: const InputDecoration(
-//                       border: OutlineInputBorder(),
-//                       labelText: 'Email',
-//                     ),
-//                   ),
-//                 ),
-//                 Container(
-//                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-//                   child: TextFormField(
-//                     validator: ((value) {
-//                       if (value!.isEmpty || value.length < 8) {
-//                         return 'Password is too short!';
-//                       }
-//                       return null;
-//                     }),
-//                     obscureText: true,
-//                     controller: passController,
-//                     decoration: const InputDecoration(
-//                       border: OutlineInputBorder(),
-//                       labelText: 'Password',
-//                     ),
-//                   ),
-//                 ),
-//                 TextButton(
-//                   onPressed: () {
-//                     //forgot password screen
-//                   },
-//                   child: const Text(
-//                     'Forgot Password',
-//                   ),
-//                 ),
-//                 Container(
-//                     height: 50,
-//                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-//                     child: ElevatedButton(
-//                       child: const Text('Login'),
-//                       onPressed: () {
-//                         validate(ref);
-//                       },
-//                     )),
-//                 Row(
-//                   children: <Widget>[
-//                     const Text('Does not have account?'),
-//                     TextButton(
-//                       child: const Text(
-//                         'Sign Up',
-//                         style: TextStyle(fontSize: 20),
-//                       ),
-//                       onPressed: () {
-//                         Navigator.push(
-//                           context,
-//                           MaterialPageRoute(builder: (context) => SignUpPage()),
-//                         );
-//                       },
-//                     )
-//                   ],
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                 ),
-//               ],
-//             )),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Login Page"),
+        elevation: 0.0,
+      ),
+      body: Form(
+        key: _formKey,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.asset("assets/images/signin.png"),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      validator: ((value) {
+                        if (value!.isEmpty || !value.contains('@')) {
+                          return 'Invalid email!';
+                        }
+                        return null;
+                      }),
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextFormField(
+                      validator: ((value) {
+                        if (value!.isEmpty || value.length < 8) {
+                          return 'Password is too short!';
+                        }
+                        return null;
+                      }),
+                      obscureText: true,
+                      controller: passController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      style:
+                          const ButtonStyle(alignment: Alignment.centerRight),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPassPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Forgot Password',
+                      ),
+                    ),
+                  ),
+                  Container(
+                      height: 45,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: ElevatedButton(
+                        child: const Text('Login'),
+                        onPressed: () {
+                          validate(ref);
+                        },
+                      )),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Divider(
+                      height: 2,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const Align(alignment: Alignment.center, child: Text("Or")),
+                  Container(
+                    margin: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(3.0),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.black)),
+                    height: 45,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: SignInButton(
+                      Buttons.Google,
+                      text: "Sign In with Google",
+                      onPressed: () {
+                        ref.read(authServiceProvider).signInwithGoogle();
+                      },
+                      elevation: 0,
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Text('Does not have account?'),
+                      TextButton(
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpPage()),
+                          );
+                        },
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  const Expanded(
+                    child: SizedBox(),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              )),
+        ),
+      ),
+    );
+  }
+}
