@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/presentation/screens/add_to_cart.dart';
 import 'package:food_delivery_app/provider/cart_item_count_provider.dart';
 
 class FoodDetailPage extends StatelessWidget {
@@ -150,11 +151,11 @@ class FoodDetailPage extends StatelessWidget {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text("Rs: " + food.price.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.w500))
@@ -163,18 +164,23 @@ class FoodDetailPage extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 5),
               height: 50,
               decoration: BoxDecoration(
                   color: Colors.red.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(10)),
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.shopping_cart,
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddToCartPage()));
+                },
               ),
             ),
           ],

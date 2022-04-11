@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final cartItemCountProvider =
-    ChangeNotifierProvider<CartItemCountNotifier>((ref) {
+    ChangeNotifierProvider.autoDispose<CartItemCountNotifier>((ref) {
   return CartItemCountNotifier();
 });
 
