@@ -1,10 +1,23 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class AddToCartPage extends StatelessWidget {
-  const AddToCartPage({Key? key}) : super(key: key);
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/model/cart_food.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/presentation/widgets/cart_item_tile.dart';
+import 'package:food_delivery_app/provider/firestore_provider.dart';
+
+class AddToCartPage extends ConsumerWidget {
+  AddToCartPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Stream<QuerySnapshot> _foodStream = FirebaseFirestore.instance
+        .collection("cart")
+        .doc("qwdfXDfZFhQcWvj80IGCiQOAJOD2")
+        .collection("foodlist")
+        .snapshots();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -15,29 +28,48 @@ class AddToCartPage extends StatelessWidget {
           "My Cart",
           style: TextStyle(color: Colors.black),
         ),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.check))],
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
+          IconButton(
+              onPressed: () async {
+                ref.watch(firestoreServideProvider).insertDate();
+              },
+              icon: const Icon(Icons.add)),
+        ],
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: ((context, index) {
-                  return const CartItemTile();
-                }),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Divider(color: Colors.black),
-            ),
-            _buildBottomSheet(context)
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(child: _buildListView(_foodStream)),
+          _buildBottomSheet(context)
+        ],
       ),
+    );
+  }
+
+  StreamBuilder<QuerySnapshot<Object?>> _buildListView(
+      Stream<QuerySnapshot<Object?>> _foodStream) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _foodStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return const Scaffold(
+              body: Center(child: Text('Something went wrong')));
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        return ListView(
+          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+            Map<String, dynamic> data =
+                document.data()! as Map<String, dynamic>;
+            return CartItemTile(food: CartFood.fromMap(data));
+          }).toList(),
+        );
+      },
     );
   }
 
@@ -49,7 +81,7 @@ class AddToCartPage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(children: [
-          _bottomTextRow(title: "Item total", price: "10000"),
+          _bottomTextRow(title: "Item total", price: "1000"),
           _bottomTextRow(title: "Delivary Charge", price: "100"),
           _bottomTextRow(title: "Tax", price: "50"),
           const SizedBox(
@@ -67,7 +99,7 @@ class AddToCartPage extends StatelessWidget {
                 maxLines: 2,
               ),
               Text(
-                "\$" "10150",
+                "\$" "1150",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -122,110 +154,6 @@ class AddToCartPage extends StatelessWidget {
           maxLines: 2,
         ),
       ],
-    );
-  }
-}
-
-class CartItemTile extends StatelessWidget {
-  const CartItemTile({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120,
-      width: MediaQuery.of(context).size.width,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Row(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              child: SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: Image.asset(
-                    "assets/images/pizza_def.jpeg",
-                    fit: BoxFit.cover,
-                  )),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 15, top: 8),
-                child: Text(
-                  "Pizza",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 24),
-                  maxLines: 2,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 15),
-                child: Text(
-                  "Rs. 1000",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20),
-                  maxLines: 2,
-                ),
-              ),
-              const Expanded(child: SizedBox()),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          primary: Colors.orange.withOpacity(0.85),
-                          shape: const CircleBorder(),
-                          padding: EdgeInsets.zero),
-                      child: const Icon(
-                        Icons.remove,
-                        size: 15,
-                      ),
-                      onPressed: () {},
-                    ),
-                    const Text(
-                      "1",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          primary: Colors.orange.withOpacity(0.85),
-                          shape: const CircleBorder(),
-                          padding: EdgeInsets.zero),
-                      child: const Icon(
-                        Icons.add,
-                        size: 15,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
-        ]),
-      ),
     );
   }
 }

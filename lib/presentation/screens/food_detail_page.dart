@@ -176,10 +176,8 @@ class FoodDetailPage extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddToCartPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddToCartPage()));
                 },
               ),
             ),

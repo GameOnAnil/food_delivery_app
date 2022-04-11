@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/data/repository/home_page_repo.dart';
+import 'package:food_delivery_app/presentation/screens/add_to_cart.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +21,7 @@ class HomePage extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () {
-            ref.watch(authServiceProvider).signOut();
+            ref.read(authServiceProvider).signOut();
           },
           icon: const Icon(
             Icons.restaurant_menu_outlined,
@@ -39,6 +40,19 @@ class HomePage extends ConsumerWidget {
           const SizedBox(
             width: 10,
           ),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddToCartPage(),
+                    ));
+              },
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+                size: 30,
+              ))
         ],
       ),
       body: SafeArea(

@@ -11,7 +11,6 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("REstaurant:" + restaurant.defaultImage.toString());
     return GestureDetector(
       onTap: () {
         Navigator.push(
