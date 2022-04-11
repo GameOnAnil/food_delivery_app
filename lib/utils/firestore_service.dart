@@ -3,19 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/data/model/cart_food.dart';
 
 class FirestoreService {
-  FirestoreService();
-  Future<void> insertDate() async {
+  final String userId;
+  FirestoreService(this.userId);
+  Future<void> insertDate(CartFood cartFood) async {
     final collectionRef = FirebaseFirestore.instance
         .collection("cart")
-        .doc("qwdfXDfZFhQcWvj80IGCiQOAJOD2")
+        .doc(userId)
         .collection("foodlist");
-    final newUser = CartFood(
-            id: "b",
-            name: "Pizza",
-            image: "pizza_def",
-            price: 1000,
-            quantity: 1)
-        .toMap();
+    final newUser = cartFood.toMap();
     await collectionRef
         .doc()
         .set(newUser)
@@ -25,5 +20,5 @@ class FirestoreService {
             Fluttertoast.showToast(msg: "Error Adding Data:" + e.toString()));
   }
 
-  Future<void> getData() async {}
+  Future<void> updateData() async {}
 }

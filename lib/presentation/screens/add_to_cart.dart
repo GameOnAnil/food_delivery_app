@@ -32,7 +32,12 @@ class AddToCartPage extends ConsumerWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
           IconButton(
               onPressed: () async {
-                ref.watch(firestoreServideProvider).insertDate();
+                ref.watch(firestoreServideProvider).insertDate(CartFood(
+                    id: "",
+                    name: "Coke",
+                    image: "coke",
+                    price: 80,
+                    quantity: 1));
               },
               icon: const Icon(Icons.add)),
         ],

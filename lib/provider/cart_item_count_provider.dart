@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/provider/auth_provider.dart';
 
 final cartItemCountProvider =
     ChangeNotifierProvider.autoDispose<CartItemCountNotifier>((ref) {
@@ -7,7 +8,7 @@ final cartItemCountProvider =
 });
 
 class CartItemCountNotifier extends ChangeNotifier {
-  int count = 0;
+  int count = 1;
 
   CartItemCountNotifier();
 
@@ -17,7 +18,7 @@ class CartItemCountNotifier extends ChangeNotifier {
   }
 
   Future<void> minusOne() async {
-    if (count > 0) {
+    if (count > 1) {
       count--;
       notifyListeners();
     }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/data/model/cart_food.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/presentation/screens/add_to_cart.dart';
 import 'package:food_delivery_app/provider/cart_item_count_provider.dart';
+import 'package:food_delivery_app/provider/firestore_provider.dart';
 
 class FoodDetailPage extends StatelessWidget {
   final Food food;
@@ -176,8 +178,12 @@ class FoodDetailPage extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddToCartPage()));
+                  ref.watch(firestoreServideProvider).insertDate(CartFood(
+                      id: food.sId,
+                      name: food.name,
+                      image: food.image,
+                      price: food.price,
+                      quantity: ref.read(cartItemCountProvider).count));
                 },
               ),
             ),
