@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/data/repository/home_page_repo.dart';
-import 'package:food_delivery_app/presentation/screens/add_to_cart.dart';
+import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,40 +19,47 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            ref.read(authServiceProvider).signOut();
-          },
-          icon: const Icon(
-            Icons.restaurant_menu_outlined,
-            color: Colors.black,
+        leadingWidth: 80,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Center(
+            child: CircleAvatar(
+              radius: 23,
+              backgroundColor: Colors.black.withOpacity(0.4),
+              child: const CircleAvatar(
+                radius: 22,
+                backgroundImage: AssetImage("assets/images/profile.PNG"),
+              ),
+            ),
           ),
         ),
         actions: [
-          CircleAvatar(
-            radius: 26,
-            backgroundColor: Colors.black.withOpacity(0.4),
-            child: const CircleAvatar(
-              radius: 25,
-              backgroundImage: AssetImage("assets/images/profile.PNG"),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartListPage(),
+                  ));
+            },
+            icon: const Icon(
+              Icons.shopping_cart,
+              color: Colors.black,
+              size: 30,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              ref.read(authServiceProvider).signOut();
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.black,
             ),
           ),
           const SizedBox(
             width: 10,
           ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddToCartPage(),
-                    ));
-              },
-              icon: const Icon(
-                Icons.shopping_cart,
-                color: Colors.black,
-                size: 30,
-              ))
         ],
       ),
       body: SafeArea(
