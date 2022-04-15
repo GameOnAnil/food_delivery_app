@@ -26,7 +26,7 @@ class HorizontalFoodTile extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Image.asset(
-                food.image,
+                "assets/images/" + food.image + ".jpeg",
                 width: 150,
                 height: 150,
                 fit: BoxFit.cover,

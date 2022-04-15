@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/presentation/screens/login_page.dart';
+import 'package:food_delivery_app/presentation/screens/splash_screen.dart';
 import 'package:food_delivery_app/provider/auth_provider.dart';
 
 void main() async {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: AuthenticationWrapper(),
+      home: SplashScreen(),
     );
   }
 }
@@ -41,7 +42,7 @@ class AuthenticationWrapper extends StatelessWidget {
             return const Center(child: Text("Something went wrong"));
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return const AuthChecker();
+            return AuthChecker();
           }
           return const Scaffold(
             body: const Center(child: const CircularProgressIndicator()),

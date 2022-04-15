@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/presentation/screens/food_detail_page.dart';
+import 'package:food_delivery_app/presentation/widgets/horizontal_food_tile.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   final Restaurant restaurant;
@@ -53,23 +54,19 @@ class RestaurantDetailsPage extends StatelessWidget {
                   )
                 ],
               ),
-              // MediaQuery.removePadding(
-              //   removeTop: true,
-              //   context: context,
-              //   child: ListView.builder(
-              //     shrinkWrap: true,
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     scrollDirection: Axis.vertical,
-              //     itemBuilder: (context, index) {
-              //       return HorizontalFoodTile(
-              //         food: restaurant.title == "KFC"
-              //             ? kfcList[index]
-              //             : foodList[index],
-              //       );
-              //     },
-              //     itemCount: foodList.length,
-              //   ),
-              // )
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return HorizontalFoodTile(food: restaurant.foodlist[index]);
+                  },
+                  itemCount: restaurant.foodlist.length,
+                ),
+              )
             ],
           ),
         ));

@@ -102,7 +102,8 @@ class CartListPage extends ConsumerWidget {
             _bottomTextRow(
                 title: "Delivary Charge",
                 price: totalDelivaryChange.toString()),
-            _bottomTextRow(title: "Tax", price: totalTax.toString()),
+            _bottomTextRow(
+                title: "Tax", price: totalTax.toStringAsFixed(2).toString()),
             const SizedBox(
               height: 10,
             ),
@@ -168,7 +169,7 @@ class CartListPage extends ConsumerWidget {
           maxLines: 2,
         ),
         Text(
-          "\$" + price,
+          "Rs." + price,
           style: const TextStyle(
               color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
           maxLines: 2,
