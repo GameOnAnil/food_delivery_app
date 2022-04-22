@@ -22,7 +22,7 @@ class AuthenticationService {
     }
   }
 
-  Future<String?> signInwithGoogle() async {
+  Future<String> signInwithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -33,9 +33,10 @@ class AuthenticationService {
         idToken: googleSignInAuthentication.idToken,
       );
       await _firebaseAuth.signInWithCredential(credential);
+      return "Success";
     } on FirebaseAuthException catch (e) {
-      print(e.message);
-      throw e;
+      //print(e.message);
+      return e.message ?? "Unknown Error";
     }
   }
 
