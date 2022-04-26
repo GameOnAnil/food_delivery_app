@@ -47,7 +47,7 @@ class AuthenticationService {
           email: email, password: password);
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      return "Signed Up";
+      return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message ?? "Unknown Error";
     }
@@ -57,6 +57,15 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signOut();
       return "Signed Out";
+    } on FirebaseAuthException catch (e) {
+      return e.message ?? "Unknown Error";
+    }
+  }
+
+  Future<String> resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return "Reset Sent";
     } on FirebaseAuthException catch (e) {
       return e.message ?? "Unknown Error";
     }

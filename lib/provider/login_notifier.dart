@@ -24,7 +24,7 @@ class LoginFailure extends LoginState {
 
 final loginStateNotifierProvider =
     StateNotifierProvider<LoginNotifier, LoginState>((ref) {
-  return LoginNotifier(const AsyncLoading(),
+  return LoginNotifier(LoginInitial(),
       authenticationService: ref.watch(authServiceProvider));
 });
 

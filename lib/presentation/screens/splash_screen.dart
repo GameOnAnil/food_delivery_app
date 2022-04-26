@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/main.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -43,28 +42,28 @@ class _SplashScreenState extends State<SplashScreen>
         ScaleTransition(
           scale: _animation,
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 200,
               height: 200,
               child: Image.asset("assets/images/burger.png"),
             ),
           ),
         ),
-        Text(
+        const Text(
           "F00D",
-          style: GoogleFonts.cookie(
+          style: TextStyle(
+              fontFamily: "GreatVibes",
               fontSize: 60,
-              fontWeight: FontWeight.bold,
               color: Colors.red,
-              letterSpacing: 3),
+              fontWeight: FontWeight.bold),
         ),
-        Text(
+        const Text(
           "Delivary App",
-          style: GoogleFonts.cookie(
-              fontSize: 56,
-              fontWeight: FontWeight.bold,
+          style: TextStyle(
+              fontFamily: "GreatVibes",
+              fontSize: 55,
               color: Colors.orange,
-              letterSpacing: 5),
+              fontWeight: FontWeight.bold),
         ),
       ],
     ));

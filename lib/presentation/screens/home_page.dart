@@ -107,7 +107,7 @@ class HomePage extends ConsumerWidget {
                   builder: (context, ref, child) {
                     return ref.watch(restaurantFutureProvider).when(
                           error: (e, s) => Center(
-                            child: Text("ERROR${e.toString()}"),
+                            child: Text("ERROR: ${e.toString()}"),
                           ),
                           loading: () => const Center(
                             child: CircularProgressIndicator(),
@@ -142,7 +142,7 @@ class HomePage extends ConsumerWidget {
                   builder: (context, ref, child) {
                     return ref.watch(foodFutureProvider).when(
                           error: (e, s) => Center(
-                            child: Text("ERROR${e.toString()}"),
+                            child: Text("ERROR: ${e.toString()}"),
                           ),
                           loading: () => const Center(
                             child: CircularProgressIndicator(),

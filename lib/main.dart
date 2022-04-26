@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
@@ -26,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -38,18 +36,19 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _init = Firebase.initializeApp();
     return FutureBuilder(
-        future: _init,
-        builder: ((context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(child: Text("Something went wrong"));
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            return AuthChecker();
-          }
-          return const Scaffold(
-            body: const Center(child: const CircularProgressIndicator()),
-          );
-        }));
+      future: _init,
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(child: Text("Something went wrong"));
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return const AuthChecker();
+        }
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }),
+    );
   }
 }
 
@@ -72,7 +71,7 @@ class AuthChecker extends ConsumerWidget {
           return const Center(child: Text("Some error"));
         },
         loading: () => const Scaffold(
-              body: const Center(child: const CircularProgressIndicator()),
+              body: Center(child: CircularProgressIndicator()),
             ));
   }
 }
