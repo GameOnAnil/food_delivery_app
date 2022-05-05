@@ -14,7 +14,10 @@ class FoodService {
   final Dio _dio;
 
   Future<List<Food>> getFoods() async {
+    const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY3YWMwYTg4OWUxYjhmNWQwNjhhMzYiLCJuYW1lIjoiYW5pbDMiLCJwYXNzd29yZCI6IiQyYiQxMCRaY3FNeVlvTGJ5aDNGYUFic0w2d3BlYzhLU3ZkdmxTeU1ZdzVjSVoxeDY0bVl5OU9YNHp0MiIsIl9fdiI6MCwiaWF0IjoxNjUwOTcwODQwfQ.Lmuk-JUQlHocNL8Mr8CzKicTh3TeX2KhJUX-ZBvKEtI";
     try {
+      _dio.options.headers["Authorization"] = "Bearer ${token}";
       final response =
           await _dio.get("https://food-api-mongo.herokuapp.com/foods");
 
@@ -28,6 +31,9 @@ class FoodService {
   }
 
   Future<List<Restaurant>> getRestaurants() async {
+        const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY3YWMwYTg4OWUxYjhmNWQwNjhhMzYiLCJuYW1lIjoiYW5pbDMiLCJwYXNzd29yZCI6IiQyYiQxMCRaY3FNeVlvTGJ5aDNGYUFic0w2d3BlYzhLU3ZkdmxTeU1ZdzVjSVoxeDY0bVl5OU9YNHp0MiIsIl9fdiI6MCwiaWF0IjoxNjUwOTcwODQwfQ.Lmuk-JUQlHocNL8Mr8CzKicTh3TeX2KhJUX-ZBvKEtI";
+     _dio.options.headers["Authorization"] = "Bearer ${token}";
     try {
       final response =
           await _dio.get("https://food-api-mongo.herokuapp.com/restaurants");

@@ -54,7 +54,7 @@ class SignUpPage extends ConsumerWidget {
                     onPressed: () {
                       ref.read(signUpNotifierProvider.notifier).reset();
                     },
-                    icon: Icon(Icons.refresh))
+                    icon: const Icon(Icons.refresh))
               ],
             ),
           );
@@ -70,109 +70,105 @@ class SignUpPage extends ConsumerWidget {
 
   Widget _buildInitialData(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Form(
-          key: _formKey,
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Container(
-                    height: 250,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.asset("assets/images/signup.png"),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      validator: ((value) {
-                        if (value!.isEmpty) {
-                          return 'Name Cannot be empty';
-                        }
-                        return null;
-                      }),
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Name',
-                      ),
+      child: Form(
+        key: _formKey,
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.asset("assets/images/signup.png"),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    validator: ((value) {
+                      if (value!.isEmpty) {
+                        return 'Name Cannot be empty';
+                      }
+                      return null;
+                    }),
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Name',
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      validator: ((value) {
-                        if (value!.isEmpty || !value.contains('@')) {
-                          return 'Invalid email!';
-                        }
-                        return null;
-                      }),
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email',
-                      ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    validator: ((value) {
+                      if (value!.isEmpty || !value.contains('@')) {
+                        return 'Invalid email!';
+                      }
+                      return null;
+                    }),
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      validator: ((value) {
-                        if (value!.isEmpty || value.length < 8) {
-                          return 'Password is too short!';
-                        }
-                        return null;
-                      }),
-                      obscureText: true,
-                      controller: passController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                      ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    validator: ((value) {
+                      if (value!.isEmpty || value.length < 8) {
+                        return 'Password is too short!';
+                      }
+                      return null;
+                    }),
+                    obscureText: true,
+                    controller: passController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: TextFormField(
-                      validator: ((value) {
-                        if (value!.isEmpty || value.length < 8) {
-                          return 'Password is too short!';
-                        } else if (value != passController.text) {
-                          return 'Password Does Not Match';
-                        }
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: TextFormField(
+                    validator: ((value) {
+                      if (value!.isEmpty || value.length < 8) {
+                        return 'Password is too short!';
+                      } else if (value != passController.text) {
+                        return 'Password Does Not Match';
+                      }
 
-                        return null;
-                      }),
-                      obscureText: true,
-                      controller: confirmpassController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Confirm Password',
-                      ),
+                      return null;
+                    }),
+                    obscureText: true,
+                    controller: confirmpassController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Confirm Password',
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                      height: 50,
-                      width: 250,
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: ElevatedButton(
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () {
-                          validate(ref);
-                        },
-                      )),
-                ],
-              )),
-        ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    height: 50,
+                    width: 250,
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: ElevatedButton(
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        validate(ref);
+                      },
+                    )),
+              ],
+            )),
       ),
     );
   }

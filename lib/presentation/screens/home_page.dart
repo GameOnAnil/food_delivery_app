@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
-import 'package:food_delivery_app/data/repository/home_page_repo.dart';
+
 import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
+import 'package:food_delivery_app/presentation/screens/login_page_2.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_delivery_app/provider/auth_provider.dart';
 import 'package:food_delivery_app/provider/foodprovider.dart';
+import 'package:food_delivery_app/utils/my_shared_pref.dart';
 
 class HomePage extends ConsumerWidget {
-  HomePageRepository repository = HomePageRepository();
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,8 +49,14 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           IconButton(
-            onPressed: () {
-              ref.read(authServiceProvider).signOut();
+            onPressed: () async {
+              await MySharedPreference().resetPref();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: ((context) => LoginPage2())),
+                ModalRoute.withName('/'),
+              );
+              // ref.read(authServiceProvider).signOut();
             },
             icon: const Icon(
               Icons.logout,
