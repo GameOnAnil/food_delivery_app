@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
-import 'package:food_delivery_app/presentation/screens/food_detail_page.dart';
 import 'package:food_delivery_app/presentation/widgets/horizontal_food_tile.dart';
+import 'package:food_delivery_app/presentation/widgets/text_with_icon.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   final Restaurant restaurant;

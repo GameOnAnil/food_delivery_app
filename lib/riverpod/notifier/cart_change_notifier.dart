@@ -67,7 +67,7 @@ class CartChangeNotifier extends ChangeNotifier {
   }
 
   void removeItem(CartItem cartItem) {
-    cartList.removeWhere((element) => cartItem.id == element.id);
+    cartList.removeWhere((item) => item.id == cartItem.id);
     notifyListeners();
   }
 }

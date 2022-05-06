@@ -54,7 +54,7 @@ class HomePage extends ConsumerWidget {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: ((context) => LoginPage())),
-                ModalRoute.withName('/'),
+                ModalRoute.withName('/login'),
               );
               // ref.read(authServiceProvider).signOut();
             },

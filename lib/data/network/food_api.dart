@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -149,8 +148,11 @@ class FoodService {
       final response = await _dio.patch(
           "https://food-api-mongo.herokuapp.com/carts/${user.id}",
           data: newRes);
-      log("Response code" + response.statusCode.toString());
-      return "Success";
+      if (response.statusCode == 200) {
+        return "Success";
+      } else {
+        return response.toString();
+      }
     } on DioError catch (e) {
       return DioExceptions.fromDioError(e).message;
     } on SocketException {

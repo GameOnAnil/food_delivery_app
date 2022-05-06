@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/data/model/cart_item.dart';
@@ -5,14 +7,31 @@ import 'package:food_delivery_app/data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/data/network/food_api.dart';
 import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
+import 'package:food_delivery_app/presentation/widgets/text_with_icon.dart';
+import 'package:food_delivery_app/riverpod/notifier/food_detail_notifier.dart';
 import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
-class FoodDetailPage extends StatelessWidget {
+class FoodDetailPage extends ConsumerStatefulWidget {
   final Food food;
   const FoodDetailPage({Key? key, required this.food}) : super(key: key);
 
   @override
+  ConsumerState<FoodDetailPage> createState() => _FoodDetailPageState();
+}
+
+class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
+  @override
   Widget build(BuildContext context) {
+    var foodDetailState = ref.watch(foodDetailNotiferProvider).state;
+    if (foodDetailState is FoodDetailInitialState) {
+      return mainBody(context, ref);
+    } else if (foodDetailState is FoodDetailLoadingState) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    return mainBody(context, ref);
+  }
+
+  Scaffold mainBody(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -62,7 +81,7 @@ class FoodDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  food.name,
+                  widget.food.name,
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.7),
                     fontWeight: FontWeight.w900,
@@ -74,7 +93,7 @@ class FoodDetailPage extends StatelessWidget {
                     Icons.location_on,
                     color: Colors.black.withOpacity(0.5),
                   ),
-                  text: food.address,
+                  text: widget.food.address,
                 ),
                 const SizedBox(
                   height: 10,
@@ -103,7 +122,7 @@ class FoodDetailPage extends StatelessWidget {
                         Icons.star,
                         color: Colors.yellow,
                       ),
-                      text: food.rating.toString(),
+                      text: widget.food.rating.toString(),
                     ),
                   ],
                 ),
@@ -121,7 +140,7 @@ class FoodDetailPage extends StatelessWidget {
             ),
           ),
           const Expanded(child: SizedBox()),
-          _buildAddButton(context),
+          _buildAddButton(context, ref),
           const SizedBox(
             height: 25,
           ),
@@ -130,102 +149,102 @@ class FoodDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAddButton(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.orange[500],
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        ref.read(cartItemCountProvider).minusOne();
-                      },
-                      child: const Text(
-                        "-",
-                        style: TextStyle(
-                            fontSize: 35,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500),
-                      ),
+  Widget _buildAddButton(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Colors.orange[500],
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      ref.read(foodDetailNotiferProvider).minusOne();
+                    },
+                    child: const Text(
+                      "-",
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
                     ),
-                    Text(
-                      ref.watch(cartItemCountProvider).count.toString(),
-                      style: const TextStyle(
+                  ),
+                  Text(
+                    ref.watch(foodDetailNotiferProvider).count.toString(),
+                    style: const TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      ref.read(foodDetailNotiferProvider).plusOne();
+                    },
+                    child: const Text(
+                      "+",
+                      style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        ref.read(cartItemCountProvider).plusOne();
-                      },
-                      child: const Text(
-                        "+",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text("Rs: " + food.price.toString(),
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500))
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text("Rs: " + widget.food.price.toString(),
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500))
+                ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 5),
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(10)),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () async {
-                  final cartlist =
-                      await ref.read(foodServiceProvider).getCartItem();
-                  final response = await ref
-                      .watch(foodServiceProvider)
-                      .insertIntoCart(
-                          CartItem(
-                              id: food.sId,
-                              name: food.name,
-                              image: food.image,
-                              price: food.price,
-                              quantity: ref.read(cartItemCountProvider).count),
-                          cartlist ?? []);
-                  if (response == "Success") {
-                    Fluttertoast.showToast(msg: "Added Successfully");
-                  } else {
-                    Fluttertoast.showToast(msg: response);
-                  }
-                },
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(10)),
+            child: IconButton(
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+                size: 30,
               ),
+              onPressed: () async {
+                final cartlist =
+                    await ref.read(foodServiceProvider).getCartItem();
+                final response = await ref
+                    .watch(foodDetailNotiferProvider)
+                    .insertIntoCart(
+                        CartItem(
+                            id: widget.food.sId,
+                            name: widget.food.name,
+                            image: widget.food.image,
+                            price: widget.food.price,
+                            quantity:
+                                ref.read(foodDetailNotiferProvider).count),
+                        cartlist ?? []);
+                if (response == "Success") {
+                  Fluttertoast.showToast(msg: "Added Successfully");
+                } else {
+                  log(response);
+                  Fluttertoast.showToast(msg: response);
+                }
+              },
             ),
-          ],
-        ),
-      );
-    });
+          ),
+        ],
+      ),
+    );
   }
 
   SizedBox _buildBackgoundImage() {
@@ -237,7 +256,8 @@ class FoodDetailPage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("assets/images/" + food.image + ".jpeg"),
+                    image: AssetImage(
+                        "assets/images/" + widget.food.image + ".jpeg"),
                     fit: BoxFit.cover)),
           ),
           Positioned(
@@ -257,33 +277,6 @@ class FoodDetailPage extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class TextWithIcon extends StatelessWidget {
-  final Icon icon;
-  final String text;
-  const TextWithIcon({
-    Key? key,
-    required this.icon,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        icon,
-        const SizedBox(
-          width: 4,
-        ),
-        Text(
-          text,
-          style:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-        )
-      ],
     );
   }
 }

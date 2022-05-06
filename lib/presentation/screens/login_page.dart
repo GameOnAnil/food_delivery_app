@@ -7,12 +7,18 @@ import 'package:food_delivery_app/presentation/screens/home_page.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:food_delivery_app/riverpod/notifier/login_token_notifier.dart';
 
-class LoginPage extends ConsumerWidget {
-  LoginPage({Key? key}) : super(key: key);
+class LoginPage extends ConsumerStatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  ConsumerState<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends ConsumerState<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   final emailController = TextEditingController();
+
   final passController = TextEditingController();
 
   void validate(WidgetRef ref) async {
@@ -29,7 +35,7 @@ class LoginPage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,6 +45,16 @@ class LoginPage extends ConsumerWidget {
       body: Consumer(
         builder: (context, ref, child) {
           final state = ref.watch(tokenAuthStateNotifierProvider);
+
+          ref.listen<LoginState>(tokenAuthStateNotifierProvider,
+              (previous, next) {
+            if (next is LoginSuccess) {
+              Fluttertoast.showToast(msg: "Login success");
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            }
+          });
+
           if (state is LoginLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LoginFailure) {
@@ -62,9 +78,9 @@ class LoginPage extends ConsumerWidget {
               ),
             );
           } else if (state is LoginSuccess) {
-            Fluttertoast.showToast(msg: "Login success");
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+            // Fluttertoast.showToast(msg: "Login success");
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => const HomePage()));
             return _buildInitialDetail(context, ref);
           } else {
             return _buildInitialDetail(context, ref);
