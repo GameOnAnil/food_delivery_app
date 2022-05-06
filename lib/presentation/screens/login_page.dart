@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:food_delivery_app/presentation/screens/forgot_pass_page.dart';
-import 'package:food_delivery_app/presentation/screens/sign_up_page.dart';
+
+import 'package:food_delivery_app/presentation/screens/home_page.dart';
+
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:food_delivery_app/provider/login_notifier.dart';
+import 'package:food_delivery_app/riverpod/notifier/login_token_notifier.dart';
 
 class LoginPage extends ConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class LoginPage extends ConsumerWidget {
   void validate(WidgetRef ref) async {
     if (_formKey.currentState!.validate()) {
       await ref
-          .read(loginStateNotifierProvider.notifier)
+          .read(tokenAuthStateNotifierProvider.notifier)
           .signIn(emailController.text, passController.text);
     } else {
       Fluttertoast.showToast(
@@ -32,12 +33,12 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Login Page"),
+        title: const Text("Login Page 2"),
         elevation: 0.0,
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final state = ref.watch(loginStateNotifierProvider);
+          final state = ref.watch(tokenAuthStateNotifierProvider);
           if (state is LoginLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LoginFailure) {
@@ -52,13 +53,18 @@ class LoginPage extends ConsumerWidget {
                   ),
                   IconButton(
                       onPressed: () {
-                        ref.read(loginStateNotifierProvider.notifier).reset();
+                        ref
+                            .read(tokenAuthStateNotifierProvider.notifier)
+                            .resetState();
                       },
                       icon: const Icon(Icons.refresh))
                 ],
               ),
             );
           } else if (state is LoginSuccess) {
+            Fluttertoast.showToast(msg: "Login success");
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
             return _buildInitialDetail(context, ref);
           } else {
             return _buildInitialDetail(context, ref);
@@ -85,7 +91,8 @@ class LoginPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     validator: ((value) {
-                      if (value!.isEmpty || !value.contains('@')) {
+                      // if (value!.isEmpty || !value.contains('@')) {
+                      if (value!.isEmpty) {
                         return 'Invalid email!';
                       }
                       return null;
@@ -119,11 +126,11 @@ class LoginPage extends ConsumerWidget {
                   child: TextButton(
                     style: const ButtonStyle(alignment: Alignment.centerRight),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForgotPassPage()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => ForgotPassPage()),
+                      // );
                     },
                     child: const Text(
                       'Forgot Password',
@@ -162,9 +169,9 @@ class LoginPage extends ConsumerWidget {
                     Buttons.Google,
                     text: "Sign In with Google",
                     onPressed: () {
-                      ref
-                          .read(loginStateNotifierProvider.notifier)
-                          .signInWithGoogle();
+                      // ref
+                      //     .read(loginStateNotifierProvider.notifier)
+                      //     .signInWithGoogle();
                     },
                     elevation: 0,
                   ),
@@ -178,10 +185,10 @@ class LoginPage extends ConsumerWidget {
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => SignUpPage()),
+                        // );
                       },
                     )
                   ],

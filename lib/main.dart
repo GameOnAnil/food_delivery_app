@@ -4,10 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_delivery_app/presentation/screens/login_page_2.dart';
+import 'package:food_delivery_app/presentation/screens/login_page.dart';
 import 'package:food_delivery_app/utils/my_shared_pref.dart';
 
-Widget defaultHome = LoginPage2();
+Widget defaultHome = LoginPage();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

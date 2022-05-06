@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/model/cart_food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_delivery_app/provider/firestore_provider.dart';
+import 'package:food_delivery_app/data/model/cart_item.dart';
 
-class CartItemTile extends ConsumerWidget {
-  final CartFood food;
+import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
-  const CartItemTile({required this.food});
+class CartItemTile extends StatelessWidget {
+  final CartItem food;
+  final List<CartItem> cartList;
+  final WidgetRef ref;
+
+  const CartItemTile(
+      {required this.cartList, required this.food, required this.ref});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 120,
       width: MediaQuery.of(context).size.width,
@@ -60,64 +64,53 @@ class CartItemTile extends ConsumerWidget {
                 ),
                 const Expanded(child: SizedBox()),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            primary: Colors.orange.withOpacity(0.85),
-                            shape: const CircleBorder(),
-                            padding: EdgeInsets.zero),
-                        child: const Icon(
-                          Icons.remove,
-                          size: 15,
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              primary: Colors.orange.withOpacity(0.85),
+                              shape: const CircleBorder(),
+                              padding: EdgeInsets.zero),
+                          child: const Icon(
+                            Icons.remove,
+                            size: 15,
+                          ),
+                          onPressed: () {
+                            ref
+                                .read(cartChangeNotifierProvider)
+                                .decreaseQuantity(food);
+                          },
                         ),
-                        onPressed: () {
-                          if (food.quantity > 1) {
-                            ref.read(firestoreServideProvider).updateFood(
-                                CartFood(
-                                    id: food.id,
-                                    name: food.name,
-                                    image: food.image,
-                                    price: food.price,
-                                    quantity: food.quantity - 1));
-                          }
-                        },
-                      ),
-                      Text(
-                        food.quantity.toString(),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
+                        Text(
+                          food.quantity.toString(),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
                         ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            primary: Colors.orange.withOpacity(0.85),
-                            shape: const CircleBorder(),
-                            padding: EdgeInsets.zero),
-                        child: const Icon(
-                          Icons.add,
-                          size: 15,
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              primary: Colors.orange.withOpacity(0.85),
+                              shape: const CircleBorder(),
+                              padding: EdgeInsets.zero),
+                          child: const Icon(
+                            Icons.add,
+                            size: 15,
+                          ),
+                          onPressed: () async {
+                            ref
+                                .read(cartChangeNotifierProvider)
+                                .increaseQuantity(food);
+                          },
                         ),
-                        onPressed: () {
-                          ref.read(firestoreServideProvider).updateFood(
-                              CartFood(
-                                  id: food.id,
-                                  name: food.name,
-                                  image: food.image,
-                                  price: food.price,
-                                  quantity: food.quantity + 1));
-                        },
-                      ),
-                    ],
-                  ),
-                )
+                      ],
+                    ))
               ],
             ),
           ),
@@ -125,7 +118,7 @@ class CartItemTile extends ConsumerWidget {
             alignment: Alignment.topCenter,
             child: IconButton(
                 onPressed: () {
-                  ref.read(firestoreServideProvider).deleteFood(food);
+                  ref.read(cartChangeNotifierProvider).removeItem(food);
                 },
                 icon: const Icon(
                   Icons.delete,

@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/data/model/auth_response.dart';
-import 'package:food_delivery_app/provider/token_auth_provider.dart';
+import 'package:food_delivery_app/riverpod/providers/providers.dart';
+
 import 'package:food_delivery_app/utils/token_auth_service.dart';
 
 abstract class LoginState {}

@@ -1,21 +1,28 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/model/cart_food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/data/model/cart_item.dart';
 import 'package:food_delivery_app/presentation/widgets/cart_item_tile.dart';
-import 'package:food_delivery_app/provider/auth_provider.dart';
+import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
-class CartListPage extends ConsumerWidget {
-  CartListPage({Key? key}) : super(key: key);
+class CartListPage extends ConsumerStatefulWidget {
+  const CartListPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final Stream<QuerySnapshot> _foodStream = FirebaseFirestore.instance
-        .collection("cart")
-        .doc(ref.read(firebaseAuthProvider).currentUser!.uid)
-        .collection("foodlist")
-        .snapshots();
+  ConsumerState<CartListPage> createState() => _CartListPageState();
+}
 
+class _CartListPageState extends ConsumerState<CartListPage> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(cartChangeNotifierProvider).getCartList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var cartList = ref.watch(cartChangeNotifierProvider).cartList;
+    // ref.read(cartChangeNotifierProvider).getCartList();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,68 +34,61 @@ class CartListPage extends ConsumerWidget {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
+          IconButton(
+              onPressed: () async {
+                try {
+                  final response =
+                      await ref.watch(tokenAuthProvider).updateList(cartList);
+                  Fluttertoast.showToast(msg: response);
+                } catch (e) {
+                  Fluttertoast.showToast(msg: e.toString());
+                }
+              },
+              icon: const Icon(Icons.save)),
         ],
       ),
-      body: _buildListView(_foodStream),
+      body: _buildListView(cartList, context, ref),
     );
   }
 
-  StreamBuilder<QuerySnapshot<Object?>> _buildListView(
-      Stream<QuerySnapshot<Object?>> _foodStream) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _foodStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return const Scaffold(
-              body: Center(child: Text('Something went wrong')));
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-        var totalPrice = 0;
-        var totalDelivaryChange = 0;
-        var totalTax = 0.0;
-        var totalSum = 0.0;
-        List<CartFood> foodList =
-            snapshot.data!.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          var food = CartFood.fromMap(data);
-          totalPrice = totalPrice + food.price * food.quantity;
-          totalDelivaryChange = totalDelivaryChange + 50;
-          totalTax = 0.04 * totalPrice;
-          totalSum = totalPrice + totalDelivaryChange + totalTax;
-
-          return food;
-        }).toList();
-
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                  itemCount: foodList.length,
-                  itemBuilder: (context, index) => CartItemTile(
-                        food: foodList[index],
-                      )),
-            ),
-            _buildBottomSheet(
-                context, totalPrice, totalDelivaryChange, totalTax, totalSum)
-          ],
-        );
-      },
+  Widget _buildListView(
+      List<CartItem>? cartList, BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+              itemCount: cartList?.length,
+              itemBuilder: (context, index) {
+                if (cartList != null) {
+                  return CartItemTile(
+                    food: cartList[index],
+                    cartList: cartList,
+                    ref: ref,
+                  );
+                }
+                return Container();
+              }),
+        ),
+        _buildBottomSheet(cartList, context)
+      ],
     );
   }
 
-  Container _buildBottomSheet(
-    BuildContext context,
-    int totalPrice,
-    int totalDelivaryChange,
-    double totalTax,
-    double totalSum,
-  ) {
+  Container _buildBottomSheet(List<CartItem>? cartList, BuildContext context) {
+    var totalPrice = 0;
+    var totalDelivaryChange = 0;
+    var totalTax = 0.0;
+    var totalSum = 0.0;
+
+    if (cartList != null) {
+      cartList.map((food) {
+        totalPrice = totalPrice + food.price * food.quantity;
+        totalDelivaryChange = totalDelivaryChange + 50;
+        totalTax = 0.04 * totalPrice;
+        totalSum = totalPrice + totalDelivaryChange + totalTax;
+      }).toList();
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 250,

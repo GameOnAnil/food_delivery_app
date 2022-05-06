@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/model/cart_food.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
-import 'package:food_delivery_app/provider/cart_item_count_provider.dart';
-import 'package:food_delivery_app/provider/firestore_provider.dart';
+import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
 class FoodDetailPage extends StatelessWidget {
   final Food food;
@@ -29,20 +26,20 @@ class FoodDetailPage extends StatelessWidget {
             ),
           ),
         ),
-        actions: [
-          Center(
-            child: CircleAvatar(
-              backgroundColor: Colors.black.withOpacity(0.3),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                ),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CartListPage())),
-              ),
-            ),
-          ),
+        actions: const [
+          // Center(
+          //   child: CircleAvatar(
+          //     backgroundColor: Colors.black.withOpacity(0.3),
+          //     child: IconButton(
+          //       icon: const Icon(
+          //         Icons.shopping_cart,
+          //         color: Colors.white,
+          //       ),
+          //       onPressed: () => Navigator.push(context,
+          //           MaterialPageRoute(builder: (context) => CartListPage())),
+          //     ),
+          //   ),
+          // ),
           SizedBox(width: 15)
         ],
         backgroundColor: Colors.transparent,
@@ -199,12 +196,12 @@ class FoodDetailPage extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () {
-                  ref.watch(firestoreServideProvider).insertFood(CartFood(
-                      id: food.sId,
-                      name: food.name,
-                      image: food.image,
-                      price: food.price,
-                      quantity: ref.read(cartItemCountProvider).count));
+                  // ref.watch(firestoreServideProvider).insertFood(CartFood(
+                  //     id: food.sId,
+                  //     name: food.name,
+                  //     image: food.image,
+                  //     price: food.price,
+                  //     quantity: ref.read(cartItemCountProvider).count));
                 },
               ),
             ),

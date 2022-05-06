@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:food_delivery_app/data/model/auth_response.dart';
+import 'package:food_delivery_app/data/model/cart_item.dart';
+import 'package:food_delivery_app/data/model/cart_response.dart';
 import 'package:food_delivery_app/data/network/custom_exception.dart';
 import 'package:food_delivery_app/utils/my_shared_pref.dart';
 
@@ -39,6 +42,55 @@ class TokenAuthService {
       throw DioExceptions.fromDioError(e).toString();
     } on Exception catch (e) {
       throw e.toString();
+    }
+  }
+
+  Future<List<CartItem>?> getCartItem() async {
+    final user = await MySharedPreference().getUser();
+    try {
+      final response = await _dio
+          .get("https://food-api-mongo.herokuapp.com/carts/${user.id}");
+
+      final jsonResult = Map<String, dynamic>.from(response.data);
+
+      CartResponse cartResponse = CartResponse.fromMap(jsonResult);
+      return cartResponse.foodlist;
+    } on DioError catch (e) {
+      throw DioExceptions.fromDioError(e);
+    } on SocketException {
+      throw "No Internet Idiot";
+    }
+  }
+
+  Future<void> editCartItem(CartResponse newRes) async {
+    final user = await MySharedPreference().getUser();
+    try {
+      final response = await _dio.patch(
+          "https://food-api-mongo.herokuapp.com/carts/${user.id}",
+          data: newRes.toMap());
+      log(response.toString());
+    } on DioError catch (e) {
+      log(DioExceptions.fromDioError(e).toString());
+      throw DioExceptions.fromDioError(e);
+    } on SocketException {
+      throw "No Internet Idiot";
+    }
+  }
+
+  Future<String> updateList(List<CartItem> cartList) async {
+    final user = await MySharedPreference().getUser();
+    final newRes = CartResponse(id: user.id, foodlist: cartList).toMap();
+
+    try {
+      final response = await _dio.patch(
+          "https://food-api-mongo.herokuapp.com/carts/${user.id}",
+          data: newRes);
+      return response.toString();
+    } on DioError catch (e) {
+      log(DioExceptions.fromDioError(e).toString());
+      throw DioExceptions.fromDioError(e);
+    } on SocketException {
+      throw "No Internet Idiot";
     }
   }
 }

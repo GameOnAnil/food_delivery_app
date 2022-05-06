@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
-
 import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
-import 'package:food_delivery_app/presentation/screens/login_page_2.dart';
+
+import 'package:food_delivery_app/presentation/screens/login_page.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_delivery_app/provider/foodprovider.dart';
+import 'package:food_delivery_app/riverpod/providers/foodprovider.dart';
 import 'package:food_delivery_app/utils/my_shared_pref.dart';
 
 class HomePage extends ConsumerWidget {
@@ -39,7 +39,7 @@ class HomePage extends ConsumerWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CartListPage(),
+                    builder: (context) => const CartListPage(),
                   ));
             },
             icon: const Icon(
@@ -53,7 +53,7 @@ class HomePage extends ConsumerWidget {
               await MySharedPreference().resetPref();
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: ((context) => LoginPage2())),
+                MaterialPageRoute(builder: ((context) => LoginPage())),
                 ModalRoute.withName('/'),
               );
               // ref.read(authServiceProvider).signOut();
