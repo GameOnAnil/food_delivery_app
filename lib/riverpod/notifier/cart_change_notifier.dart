@@ -2,25 +2,43 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/cart_item.dart';
+import 'package:food_delivery_app/data/network/food_api.dart';
 
-import 'package:food_delivery_app/utils/token_auth_service.dart';
+abstract class CartState {}
+
+class CartInitialState extends CartState {}
+
+class CartLoadingState extends CartState {}
+
+class CartLoadedState extends CartState {}
 
 class CartChangeNotifier extends ChangeNotifier {
-  final TokenAuthService authenticationService;
+  final FoodService authenticationService;
   List<CartItem> cartList = [];
   String exception = "";
+  CartState cartState = CartInitialState();
 
   CartChangeNotifier({required this.authenticationService}) : super();
+
+  Future<String> updateCartInDb() async {
+    cartState = CartLoadingState();
+    notifyListeners();
+    final response = await authenticationService.updateList(cartList);
+    cartState = CartLoadedState();
+    notifyListeners();
+    return response;
+  }
 
   Future<void> getCartList() async {
     try {
       final response = await authenticationService.getCartItem();
       if (response != null) {
         cartList = response;
+        notifyListeners();
       }
-      notifyListeners();
     } catch (e) {
       exception = e.toString();
+      notifyListeners();
     }
   }
 

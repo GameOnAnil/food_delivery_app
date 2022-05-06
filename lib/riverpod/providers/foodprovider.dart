@@ -1,7 +1,6 @@
 import 'package:food_delivery_app/data/model/cart_item.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/data/network/food_api.dart';
-import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
 import '../../data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +26,7 @@ final cartFutureProvider =
     FutureProvider.autoDispose<List<CartItem>?>((ref) async {
   ref.maintainState = true;
 
-  final tokenService = ref.read(tokenAuthProvider);
+  final tokenService = ref.read(foodServiceProvider);
   final carts = await tokenService.getCartItem();
   return carts;
 });

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/data/model/cart_item.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/data/network/food_api.dart';
+import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
 import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
 class FoodDetailPage extends StatelessWidget {
@@ -26,21 +30,23 @@ class FoodDetailPage extends StatelessWidget {
             ),
           ),
         ),
-        actions: const [
-          // Center(
-          //   child: CircleAvatar(
-          //     backgroundColor: Colors.black.withOpacity(0.3),
-          //     child: IconButton(
-          //       icon: const Icon(
-          //         Icons.shopping_cart,
-          //         color: Colors.white,
-          //       ),
-          //       onPressed: () => Navigator.push(context,
-          //           MaterialPageRoute(builder: (context) => CartListPage())),
-          //     ),
-          //   ),
-          // ),
-          SizedBox(width: 15)
+        actions: [
+          Center(
+            child: CircleAvatar(
+              backgroundColor: Colors.black.withOpacity(0.3),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CartListPage())),
+              ),
+            ),
+          ),
+          const SizedBox(width: 15)
         ],
         backgroundColor: Colors.transparent,
       ),
@@ -195,13 +201,24 @@ class FoodDetailPage extends StatelessWidget {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  // ref.watch(firestoreServideProvider).insertFood(CartFood(
-                  //     id: food.sId,
-                  //     name: food.name,
-                  //     image: food.image,
-                  //     price: food.price,
-                  //     quantity: ref.read(cartItemCountProvider).count));
+                onPressed: () async {
+                  final cartlist =
+                      await ref.read(foodServiceProvider).getCartItem();
+                  final response = await ref
+                      .watch(foodServiceProvider)
+                      .insertIntoCart(
+                          CartItem(
+                              id: food.sId,
+                              name: food.name,
+                              image: food.image,
+                              price: food.price,
+                              quantity: ref.read(cartItemCountProvider).count),
+                          cartlist ?? []);
+                  if (response == "Success") {
+                    Fluttertoast.showToast(msg: "Added Successfully");
+                  } else {
+                    Fluttertoast.showToast(msg: response);
+                  }
                 },
               ),
             ),

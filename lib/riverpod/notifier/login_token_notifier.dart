@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/data/model/auth_response.dart';
-import 'package:food_delivery_app/riverpod/providers/providers.dart';
-
-import 'package:food_delivery_app/utils/token_auth_service.dart';
+import 'package:food_delivery_app/data/network/food_api.dart';
 
 abstract class LoginState {}
 
@@ -27,11 +25,11 @@ class LoginFailure extends LoginState {
 final tokenAuthStateNotifierProvider =
     StateNotifierProvider<LoginNotifier, LoginState>((ref) {
   return LoginNotifier(LoginInitial(),
-      authenticationService: ref.watch(tokenAuthProvider));
+      authenticationService: ref.watch(foodServiceProvider));
 });
 
 class LoginNotifier extends StateNotifier<LoginState> {
-  final TokenAuthService authenticationService;
+  final FoodService authenticationService;
 
   LoginNotifier(state, {required this.authenticationService})
       : super(LoginInitial());
