@@ -44,4 +44,20 @@ class FoodDetailNotifier extends ChangeNotifier {
       return e.toString();
     }
   }
+
+  Future<String> createNewCart(CartItem cartItem, List<CartItem> list) async {
+    try {
+      state = FoodDetailLoadingState();
+      notifyListeners();
+
+      var response = await foodService.createNewCart(cartItem, list);
+      state = FoodDetailLoadedState();
+      notifyListeners();
+      return response;
+    } catch (e) {
+      state = FoodDetailLoadedState();
+      notifyListeners();
+      return e.toString();
+    }
+  }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/model/cart_item.dart';
 import 'package:food_delivery_app/data/network/food_api.dart';
@@ -51,7 +49,6 @@ class CartChangeNotifier extends ChangeNotifier {
       }
     }).toList();
     cartList = newList;
-    log("Decrease called:" + cartList[1].toJson().toString());
     notifyListeners();
   }
 

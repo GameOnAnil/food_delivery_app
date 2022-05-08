@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/data/model/cart_item.dart';
@@ -220,24 +218,50 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                 size: 30,
               ),
               onPressed: () async {
-                final cartlist =
-                    await ref.read(foodServiceProvider).getCartItem();
-                final response = await ref
-                    .watch(foodDetailNotiferProvider)
-                    .insertIntoCart(
-                        CartItem(
-                            id: widget.food.sId,
-                            name: widget.food.name,
-                            image: widget.food.image,
-                            price: widget.food.price,
-                            quantity:
-                                ref.read(foodDetailNotiferProvider).count),
-                        cartlist ?? []);
+                List<CartItem>? cartlist;
+                try {
+                  cartlist = await ref.read(foodServiceProvider).getCartItem();
+                } catch (e) {
+                  cartlist = null;
+                }
+                String response = "";
+                if (cartlist == null) {
+                  response = await ref
+                      .watch(foodDetailNotiferProvider)
+                      .createNewCart(
+                          CartItem(
+                              id: widget.food.sId,
+                              name: widget.food.name,
+                              image: widget.food.image,
+                              price: widget.food.price,
+                              quantity:
+                                  ref.read(foodDetailNotiferProvider).count),
+                          cartlist ?? []);
+                } else {
+                  bool exists =
+                      cartlist.any((file) => file.id == widget.food.sId);
+                  if (!exists) {
+                    response = await ref
+                        .watch(foodDetailNotiferProvider)
+                        .insertIntoCart(
+                            CartItem(
+                                id: widget.food.sId,
+                                name: widget.food.name,
+                                image: widget.food.image,
+                                price: widget.food.price,
+                                quantity:
+                                    ref.read(foodDetailNotiferProvider).count),
+                            cartlist);
+                  }
+                  Fluttertoast.showToast(msg: "Food already in Cart");
+                }
+
                 if (response == "Success") {
                   Fluttertoast.showToast(msg: "Added Successfully");
                 } else {
-                  log(response);
-                  Fluttertoast.showToast(msg: response);
+                  if (response.isNotEmpty) {
+                    Fluttertoast.showToast(msg: response);
+                  }
                 }
               },
             ),

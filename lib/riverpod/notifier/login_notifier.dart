@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/data/model/auth_response.dart';
-import 'package:food_delivery_app/data/network/food_api.dart';
+import 'package:food_delivery_app/data/network/auth_api.dart';
+import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
 abstract class LoginState {}
 
@@ -22,14 +23,14 @@ class LoginFailure extends LoginState {
   LoginFailure(this.exception);
 }
 
-final tokenAuthStateNotifierProvider =
+final loginStateNotifierProvider =
     StateNotifierProvider<LoginNotifier, LoginState>((ref) {
   return LoginNotifier(LoginInitial(),
-      authenticationService: ref.watch(foodServiceProvider));
+      authenticationService: ref.watch(authServiceProvider));
 });
 
 class LoginNotifier extends StateNotifier<LoginState> {
-  final FoodService authenticationService;
+  final AuthService authenticationService;
 
   LoginNotifier(state, {required this.authenticationService})
       : super(LoginInitial());
@@ -38,8 +39,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
     log("Signin called");
     try {
       state = LoginLoading();
-      final response = await authenticationService.postLogin(
-          email: email, password: password);
+      final response =
+          await authenticationService.signIn(email: email, password: password);
       if (response != null) {
         state = LoginSuccess(response);
       } else {

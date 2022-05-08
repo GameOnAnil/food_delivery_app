@@ -80,9 +80,11 @@ class CartItemTile extends StatelessWidget {
                             size: 15,
                           ),
                           onPressed: () {
-                            ref
-                                .read(cartChangeNotifierProvider)
-                                .decreaseQuantity(food);
+                            if (food.quantity > 1) {
+                              ref
+                                  .read(cartChangeNotifierProvider)
+                                  .decreaseQuantity(food);
+                            }
                           },
                         ),
                         Text(

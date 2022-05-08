@@ -5,7 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
 
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:food_delivery_app/riverpod/notifier/login_token_notifier.dart';
+import 'package:food_delivery_app/presentation/screens/sign_up_page.dart';
+import 'package:food_delivery_app/riverpod/notifier/login_notifier.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void validate(WidgetRef ref) async {
     if (_formKey.currentState!.validate()) {
       await ref
-          .read(tokenAuthStateNotifierProvider.notifier)
+          .read(loginStateNotifierProvider.notifier)
           .signIn(emailController.text, passController.text);
     } else {
       Fluttertoast.showToast(
@@ -44,10 +45,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final state = ref.watch(tokenAuthStateNotifierProvider);
+          final state = ref.watch(loginStateNotifierProvider);
 
-          ref.listen<LoginState>(tokenAuthStateNotifierProvider,
-              (previous, next) {
+          ref.listen<LoginState>(loginStateNotifierProvider, (previous, next) {
             if (next is LoginSuccess) {
               Fluttertoast.showToast(msg: "Login success");
               Navigator.push(context,
@@ -58,25 +58,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           if (state is LoginLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LoginFailure) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text("Failed" + state.exception),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        ref
-                            .read(tokenAuthStateNotifierProvider.notifier)
-                            .resetState();
-                      },
-                      icon: const Icon(Icons.refresh))
-                ],
-              ),
-            );
+            return _buildFailure(state, ref);
           } else if (state is LoginSuccess) {
             // Fluttertoast.showToast(msg: "Login success");
             // Navigator.push(context,
@@ -86,6 +68,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             return _buildInitialDetail(context, ref);
           }
         },
+      ),
+    );
+  }
+
+  Padding _buildFailure(LoginFailure state, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Text("Error: " + state.exception),
+          ),
+          IconButton(
+              onPressed: () {
+                ref.read(loginStateNotifierProvider.notifier).resetState();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
     );
   }
@@ -201,10 +203,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => SignUpPage()),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                        );
                       },
                     )
                   ],

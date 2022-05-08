@@ -5,13 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/presentation/screens/login_page.dart';
 import 'package:food_delivery_app/utils/my_shared_pref.dart';
 
-Widget defaultHome = LoginPage();
+Widget defaultHome = const LoginPage();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MySharedPreference.init();
 
   bool isLoggedIn = MySharedPreference.userExists();
-  log(isLoggedIn.toString());
+  log("Logged In " + isLoggedIn.toString());
   if (isLoggedIn) {
     defaultHome = const HomePage();
   }
@@ -31,50 +31,3 @@ class MyApp extends StatelessWidget {
         home: defaultHome);
   }
 }
-
-// class AuthenticationWrapper extends StatelessWidget {
-//   const AuthenticationWrapper({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final Future<FirebaseApp> _init = Firebase.initializeApp();
-//     return FutureBuilder(
-//       future: _init,
-//       builder: ((context, snapshot) {
-//         if (snapshot.hasError) {
-//           return const Center(child: Text("Something went wrong"));
-//         }
-//         if (snapshot.connectionState == ConnectionState.done) {
-//           return const AuthChecker();
-//         }
-//         return const Scaffold(
-//           body: Center(child: CircularProgressIndicator()),
-//         );
-//       }),
-//     );
-//   }
-// }
-
-// class AuthChecker extends ConsumerWidget {
-//   const AuthChecker({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final state = ref.watch(authStateProvider);
-
-//     return state.when(
-//         data: ((data) {
-//           if (data != null) {
-//             return const HomePage();
-//           } else {
-//             return LoginPage();
-//           }
-//         }),
-//         error: (e, s) {
-//           return const Center(child: Text("Some error"));
-//         },
-//         loading: () => const Scaffold(
-//               body: Center(child: CircularProgressIndicator()),
-//             ));
-//   }
-// }
