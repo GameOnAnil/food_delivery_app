@@ -21,7 +21,7 @@ class FoodService {
 
   Future<List<Food>> getFoods() async {
     try {
-      _dio.options.headers["Authorization"] = "Bearer ${AppConstants.token}";
+      // _dio.options.headers["Authorization"] = "Bearer ${AppConstants.token}";
       final response = await _dio.get("${AppConstants.BASE_URL}/foods");
 
       final jsonResult = List<Map<String, dynamic>>.from(response.data);
@@ -34,9 +34,7 @@ class FoodService {
   }
 
   Future<List<Restaurant>> getRestaurants() async {
-    const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY3YWMwYTg4OWUxYjhmNWQwNjhhMzYiLCJuYW1lIjoiYW5pbDMiLCJwYXNzd29yZCI6IiQyYiQxMCRaY3FNeVlvTGJ5aDNGYUFic0w2d3BlYzhLU3ZkdmxTeU1ZdzVjSVoxeDY0bVl5OU9YNHp0MiIsIl9fdiI6MCwiaWF0IjoxNjUwOTcwODQwfQ.Lmuk-JUQlHocNL8Mr8CzKicTh3TeX2KhJUX-ZBvKEtI";
-    _dio.options.headers["Authorization"] = "Bearer $token";
+    // _dio.options.headers["Authorization"] = "Bearer ${AppConstants.token}";
     try {
       final response = await _dio.get("${AppConstants.BASE_URL}/restaurants");
 
@@ -67,7 +65,6 @@ class FoodService {
       throw DioExceptions.fromDioError(e);
     } on SocketException {
       return null;
-      throw "No Internet Idiot";
     }
   }
 

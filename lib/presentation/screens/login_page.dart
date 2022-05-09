@@ -27,7 +27,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (_formKey.currentState!.validate()) {
       await ref
           .read(loginStateNotifierProvider.notifier)
-          .signIn(emailController.text, passController.text);
+          .signIn(emailController.text.trim(), passController.text.trim());
     } else {
       Fluttertoast.showToast(
           msg: "Please Enter Detail",

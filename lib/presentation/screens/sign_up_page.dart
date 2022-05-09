@@ -19,7 +19,9 @@ class SignUpPage extends ConsumerWidget {
     if (_formKey.currentState!.validate()) {
       try {
         ref.read(signUpNotifierProvider.notifier).signUp(
-            nameController.text, emailController.text, passController.text);
+            nameController.text.trim(),
+            emailController.text.trim(),
+            passController.text.trim());
       } catch (e) {
         log(e.toString());
       }
