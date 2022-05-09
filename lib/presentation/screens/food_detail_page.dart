@@ -280,8 +280,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(
-                        "assets/images/" + widget.food.image + ".jpeg"),
+                    image: AssetImage("assets/images/" + widget.food.image),
                     fit: BoxFit.cover)),
           ),
           Positioned(

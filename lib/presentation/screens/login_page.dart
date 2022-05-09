@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/presentation/screens/forgot_pass_page.dart';
 
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
 
@@ -41,7 +42,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Login Page 2"),
+        title: const Text("Login Page"),
         elevation: 0.0,
       ),
       body: Consumer(
@@ -61,9 +62,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           } else if (state is LoginFailure) {
             return _buildFailure(state, ref);
           } else if (state is LoginSuccess) {
-            // Fluttertoast.showToast(msg: "Login success");
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => const HomePage()));
             return _buildInitialDetail(context, ref);
           } else {
             return _buildInitialDetail(context, ref);
@@ -145,11 +143,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   child: TextButton(
                     style: const ButtonStyle(alignment: Alignment.centerRight),
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => ForgotPassPage()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgotPassPage()),
+                      );
                     },
                     child: const Text(
                       'Forgot Password',

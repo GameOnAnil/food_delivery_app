@@ -53,7 +53,7 @@ class HomePage extends ConsumerWidget {
               await MySharedPreference().resetPref();
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: ((context) => LoginPage())),
+                MaterialPageRoute(builder: ((context) => const LoginPage())),
                 ModalRoute.withName('/login'),
               );
               // ref.read(authServiceProvider).signOut();
@@ -75,114 +75,16 @@ class HomePage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Good Food ",
-                    style: TextStyle(
-                        color: Colors.blueGrey[800],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Fast Delivery",
-                    style: TextStyle(
-                        color: Colors.blueGrey[800],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28),
-                  ),
-                ),
+                _header(),
                 const SizedBox(
                   height: 10,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Restaurants",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20),
-                  ),
-                ),
-                //_buildRestaurantList(context,restaurants,),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(restaurantFutureProvider).when(
-                          error: (e, s) => Center(
-                            child: Text("ERROR: ${e.toString()}"),
-                          ),
-                          loading: () => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          data: (restaurants) {
-                            if (restaurants != null) {
-                              return RefreshIndicator(
-                                  onRefresh: () {
-                                    return ref.refresh(
-                                        restaurantFutureProvider.future);
-                                  },
-                                  child: _buildRestaurantList(
-                                      context, restaurants, 280, 200));
-                            }
-
-                            return const Text("No Data");
-                          },
-                        );
-                  },
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "🔥Special Orders🔥",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20),
-                  ),
-                ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(foodFutureProvider).when(
-                          error: (e, s) => Center(
-                            child: Text("ERROR: ${e.toString()}"),
-                          ),
-                          loading: () => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          data: (foods) {
-                            if (foods != null) {
-                              return RefreshIndicator(
-                                  onRefresh: () {
-                                    return ref
-                                        .refresh(foodFutureProvider.future);
-                                  },
-                                  child: _buildFoodListView(
-                                      context, foods, 280, 200));
-                            }
-
-                            return const Text("No Data");
-                          },
-                        );
-                  },
-                ),
+                _restaurantPart(),
+                _specialOrderPart(),
                 const SizedBox(
                   height: 15,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "KFC Special",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20),
-                  ),
-                ),
-                // _buildFoodListView(context, kfcList, 280, 200),
+                _kfcSpecialPart(),
               ],
             ),
           ),
@@ -191,7 +93,153 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  SizedBox _buildRestaurantList(BuildContext context,
+  Column _kfcSpecialPart() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(
+            "🍟 KFC Special 🍟",
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
+          ),
+        ),
+        Consumer(
+          builder: (context, ref, child) {
+            return ref.watch(kfcFutureProvider).when(
+                  error: (e, s) => Center(
+                    child: Text("ERROR: ${e.toString()}"),
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  data: (foods) {
+                    if (foods != null) {
+                      return RefreshIndicator(
+                          onRefresh: () {
+                            return ref.refresh(kfcFutureProvider.future);
+                          },
+                          child: _buildFoodListView(context, foods, 280, 200));
+                    }
+
+                    return const Text("No Data");
+                  },
+                );
+          },
+        ),
+      ],
+    );
+  }
+
+  Column _specialOrderPart() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(
+            "🔥Special Orders🔥",
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
+          ),
+        ),
+        Consumer(
+          builder: (context, ref, child) {
+            return ref.watch(foodFutureProvider).when(
+                  error: (e, s) => Center(
+                    child: Text("ERROR: ${e.toString()}"),
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  data: (foods) {
+                    if (foods != null) {
+                      return RefreshIndicator(
+                          onRefresh: () {
+                            return ref.refresh(foodFutureProvider.future);
+                          },
+                          child: _buildFoodListView(context, foods, 280, 200));
+                    }
+
+                    return const Text("No Data");
+                  },
+                );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _restaurantPart() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(
+            "🍔 Restaurants 🍔",
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
+          ),
+        ),
+        //_buildRestaurantList(context,restaurants,),
+        Consumer(
+          builder: (context, ref, child) {
+            return ref.watch(restaurantFutureProvider).when(
+                  error: (e, s) => Center(
+                    child: Text("ERROR: ${e.toString()}"),
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  data: (restaurants) {
+                    if (restaurants != null) {
+                      return RefreshIndicator(
+                          onRefresh: () {
+                            return ref.refresh(restaurantFutureProvider.future);
+                          },
+                          child: _buildRestaurantList(
+                              context, restaurants, 240, 200));
+                    }
+                    return const Text("No Data");
+                  },
+                );
+          },
+        ),
+      ],
+    );
+  }
+
+  Column _header() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            "Good Food ",
+            style: TextStyle(
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
+                fontSize: 28),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            "Fast Delivery",
+            style: TextStyle(
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
+                fontSize: 28),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRestaurantList(BuildContext context,
       List<Restaurant> restaurants, double height, double width) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -209,7 +257,7 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  SizedBox _buildFoodListView(
+  Widget _buildFoodListView(
       BuildContext context, List<Food> foodList, double height, double width) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,

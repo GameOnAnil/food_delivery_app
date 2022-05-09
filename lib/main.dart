@@ -16,8 +16,6 @@ void main() async {
 
   bool isLoggedIn = MySharedPreference.userExists();
   log("Logged In " + isLoggedIn.toString());
-  final user = await MySharedPreference().getUser();
-  log("User:" + user.toJson());
   if (isLoggedIn) {
     defaultHome = const HomePage();
   }

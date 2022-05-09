@@ -13,6 +13,14 @@ final foodFutureProvider = FutureProvider.autoDispose<List<Food>?>((ref) async {
   return foods;
 });
 
+final kfcFutureProvider = FutureProvider.autoDispose<List<Food>?>((ref) async {
+  ref.maintainState = true;
+
+  final kfcService = ref.read(foodServiceProvider);
+  final kfcs = await kfcService.getKfcSpecial();
+  return kfcs;
+});
+
 final restaurantFutureProvider =
     FutureProvider.autoDispose<List<Restaurant>?>((ref) async {
   ref.maintainState = true;

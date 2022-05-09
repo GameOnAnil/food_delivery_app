@@ -146,8 +146,7 @@ class RestaurantDetailsPage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-              image:
-                  AssetImage("assets/images/${restaurant.defaultImage}.jpeg"),
+              image: AssetImage("assets/images/${restaurant.defaultImage}"),
               fit: BoxFit.cover)),
       height: 280,
       child: Stack(
@@ -179,7 +178,7 @@ class RestaurantDetailsPage extends StatelessWidget {
               height: 100,
               width: 100,
               child: Image.asset(
-                "assets/images/${restaurant.logo}.png",
+                "assets/images/${restaurant.logo}",
                 fit: BoxFit.contain,
               ),
             ),

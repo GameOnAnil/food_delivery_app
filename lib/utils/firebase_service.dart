@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:food_delivery_app/utils/my_shared_pref.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseService {
   final googleSignIn = GoogleSignIn();
@@ -25,5 +26,14 @@ class FirebaseService {
       log(err);
       throw err;
     });
+  }
+
+  Future<String> resetPassword(String text) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: text);
+      return "Reset Sent Success";
+    } on FirebaseAuthException catch (e) {
+      return e.toString();
+    }
   }
 }

@@ -15,7 +15,7 @@ class CartItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120,
+      height: 140,
       width: MediaQuery.of(context).size.width,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -30,7 +30,7 @@ class CartItemTile extends StatelessWidget {
                   height: 120,
                   width: 120,
                   child: Image.asset(
-                    "assets/images/${food.image}.jpeg",
+                    "assets/images/${food.image}",
                     fit: BoxFit.cover,
                   )),
             ),
@@ -45,10 +45,12 @@ class CartItemTile extends StatelessWidget {
                   child: Text(
                     food.name,
                     style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 24),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 22,
+                    ),
                     maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Padding(

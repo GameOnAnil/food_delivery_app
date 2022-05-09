@@ -28,7 +28,7 @@ class FoodCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Stack(alignment: Alignment.bottomLeft, children: [
             Image.asset(
-              "assets/images/" + food.image + ".jpeg",
+              "assets/images/" + food.image,
               fit: BoxFit.cover,
               height: height,
               width: width,
@@ -58,34 +58,45 @@ class FoodCard extends StatelessWidget {
                           Icons.electric_scooter,
                           color: Colors.white,
                         ),
-                        Text(
-                          ": " + food.available,
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
+                        Flexible(
+                          child: Text(
+                            ": " + food.available,
+                            maxLines: 2,
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(
                           Icons.location_city,
                           color: Colors.white,
                         ),
-                        Text(
-                          ": " + food.address,
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
+                        const Text(
+                          ": ",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Flexible(
+                          child: Text(
+                            food.address,
+                            maxLines: 2,
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
                     const Text(
                       "☆ ☆ ☆ ☆ ☆",
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: SizedBox(),
                         ),
                         Text(

@@ -146,4 +146,15 @@ class FoodService {
       return "No Internet Idiot";
     }
   }
+
+  Future<List<Food>> getKfcSpecial() async {
+    try {
+      final response = await _dio.get("${AppConstants.BASE_URL}/kfcs");
+      final jsonResult = List<Map<String, dynamic>>.from(response.data);
+      List<Food> foods = jsonResult.map((food) => Food.fromMap(food)).toList();
+      return foods;
+    } on DioError catch (e) {
+      throw DioExceptions.fromDioError(e).toString();
+    }
+  }
 }
