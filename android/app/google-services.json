@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "879540621070-r3qm0dkne5mmtb235pfv709ecg4g0gf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gameonanil.food_delivery_app",
+            "certificate_hash": "0c3fd8e7cf3ab2c14daba6cff06655962052d603"
+          }
+        },
+        {
           "client_id": "879540621070-pe8stv4ienn5e3jralhte35bmvlqhh7s.apps.googleusercontent.com",
           "client_type": 3
         }

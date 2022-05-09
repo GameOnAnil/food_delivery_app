@@ -36,7 +36,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
       : super(LoginInitial());
 
   Future<void> signIn(String email, String password) async {
-    log("Signin called");
     try {
       state = LoginLoading();
       final response =

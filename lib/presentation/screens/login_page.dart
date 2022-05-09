@@ -7,6 +7,7 @@ import 'package:food_delivery_app/presentation/screens/home_page.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:food_delivery_app/presentation/screens/sign_up_page.dart';
 import 'package:food_delivery_app/riverpod/notifier/login_notifier.dart';
+import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -186,10 +187,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   child: SignInButton(
                     Buttons.Google,
                     text: "Sign In with Google",
-                    onPressed: () {
-                      // ref
-                      //     .read(loginStateNotifierProvider.notifier)
-                      //     .signInWithGoogle();
+                    onPressed: () async {
+                      try {
+                        await ref.read(firebaseServiceProvider).signIn();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                          ModalRoute.withName('/home'),
+                        );
+                      } catch (e) {
+                        Fluttertoast.showToast(msg: e.toString());
+                      }
                     },
                     elevation: 0,
                   ),

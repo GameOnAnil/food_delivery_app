@@ -14,9 +14,6 @@ class AuthService {
     try {
       final response = await _dio.post("${AppConstants.BASE_URL}/users/login",
           data: {"email": email, "password": password});
-
-      // final response = await _dio.post("http://192.168.1.79:3000/users/login",
-      //     data: {"name": email, "password": password});
       if (response.statusCode == 200) {
         final jsonResult = Map<String, dynamic>.from(response.data);
         final authModel = AuthResponse.fromMap(jsonResult);
@@ -24,7 +21,6 @@ class AuthService {
         await MySharedPreference().setUserDetail(
             name: authModel.user.name,
             id: authModel.user.id,
-            password: authModel.user.password,
             token: authModel.token);
         return authModel;
       }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,9 +21,8 @@ class SignUpPage extends ConsumerWidget {
         ref.read(signUpNotifierProvider.notifier).signUp(
             nameController.text, emailController.text, passController.text);
       } catch (e) {
-        Fluttertoast.showToast(msg: "Verified");
+        log(e.toString());
       }
-      Fluttertoast.showToast(msg: "Verified");
     } else {
       Fluttertoast.showToast(
           msg: "Please Enter Detail",
