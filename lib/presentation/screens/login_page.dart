@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/presentation/screens/forgot_pass_page.dart';
-
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
-
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:food_delivery_app/presentation/screens/sign_up_page.dart';
 import 'package:food_delivery_app/riverpod/notifier/login_notifier.dart';
@@ -100,7 +99,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 250,
+                  height: 250.h,
                   width: MediaQuery.of(context).size.width,
                   child: Image.asset("assets/images/signin.png"),
                 ),
@@ -155,7 +154,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 Container(
-                    height: 45,
+                    height: 45.h,
                     width: MediaQuery.of(context).size.width * 0.8,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
@@ -167,10 +166,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 const SizedBox(
                   height: 8,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Divider(
-                    height: 2,
+                    height: 2.h,
                     color: Colors.black,
                   ),
                 ),
@@ -180,7 +179,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   padding: const EdgeInsets.all(3.0),
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.black)),
-                  height: 45,
+                  height: 45.h,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: SignInButton(
                     Buttons.Google,
@@ -205,9 +204,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: <Widget>[
                     const Text('Does not have account?'),
                     TextButton(
-                      child: const Text(
+                      child: Text(
                         'Sign Up',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -219,8 +218,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.h,
                 ),
               ],
             ),

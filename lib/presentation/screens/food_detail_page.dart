@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/data/model/cart_item.dart';
 import 'package:food_delivery_app/data/model/food.dart';
@@ -63,7 +64,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
               ),
             ),
           ),
-          const SizedBox(width: 15)
+          SizedBox(width: 15.w)
         ],
         backgroundColor: Colors.transparent,
       ),
@@ -73,7 +74,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
           _buildBackgoundImage(),
           Container(
             padding: const EdgeInsets.all(8),
-            width: MediaQuery.of(context).size.width,
+            width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +84,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.7),
                     fontWeight: FontWeight.w900,
-                    fontSize: 35,
+                    fontSize: 35.sp,
                   ),
                 ),
                 TextWithIcon(
@@ -93,16 +94,16 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                   ),
                   text: widget.food.address,
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const TextWithIcon(
+                    TextWithIcon(
                       icon: Icon(
                         Icons.local_taxi,
-                        size: 30,
+                        size: 30.r,
                       ),
                       text: "30 min",
                     ),
@@ -130,7 +131,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                     "A hamburger is a food consisting of one or more cooked patties—usually ground meat, typically beef—placed inside a sliced bun or bread roll. The patty may be pan fried, grilled, smoked or flame broiled.",
                     style: TextStyle(
                       color: Colors.black.withOpacity(0.7),
-                      fontSize: 15,
+                      fontSize: 15.sp,
                     ),
                   ),
                 ),
@@ -139,8 +140,8 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
           ),
           const Expanded(child: SizedBox()),
           _buildAddButton(context, ref),
-          const SizedBox(
-            height: 25,
+          SizedBox(
+            height: 25.h,
           ),
         ],
       ),
@@ -155,7 +156,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
         children: [
           Expanded(
             child: Container(
-              height: 50,
+              height: 50.h,
               decoration: BoxDecoration(
                   color: Colors.orange[500],
                   borderRadius: BorderRadius.circular(10)),
@@ -166,18 +167,18 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                     onPressed: () {
                       ref.read(foodDetailNotiferProvider).minusOne();
                     },
-                    child: const Text(
+                    child: Text(
                       "-",
                       style: TextStyle(
-                          fontSize: 35,
+                          fontSize: 35.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
                   Text(
                     ref.watch(foodDetailNotiferProvider).count.toString(),
-                    style: const TextStyle(
-                        fontSize: 25,
+                    style: TextStyle(
+                        fontSize: 25.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.w500),
                   ),
@@ -185,10 +186,10 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                     onPressed: () {
                       ref.read(foodDetailNotiferProvider).plusOne();
                     },
-                    child: const Text(
+                    child: Text(
                       "+",
                       style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 25.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ),
@@ -197,8 +198,8 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                     width: 10,
                   ),
                   Text("Rs: " + widget.food.price.toString(),
-                      style: const TextStyle(
-                          fontSize: 20,
+                      style: TextStyle(
+                          fontSize: 20.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.w500))
                 ],
@@ -212,10 +213,10 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                 color: Colors.red.withOpacity(0.9),
                 borderRadius: BorderRadius.circular(10)),
             child: IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.shopping_cart,
                 color: Colors.white,
-                size: 30,
+                size: 30.r,
               ),
               onPressed: () async {
                 List<CartItem>? cartlist;
@@ -273,7 +274,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
 
   SizedBox _buildBackgoundImage() {
     return SizedBox(
-      height: 300,
+      height: 300.h,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -288,12 +289,12 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
             right: 0,
             left: 0,
             child: Container(
-              height: 50,
-              decoration: const BoxDecoration(
+              height: 50.h,
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30.r),
+                  topRight: Radius.circular(30.r),
                 ),
               ),
             ),

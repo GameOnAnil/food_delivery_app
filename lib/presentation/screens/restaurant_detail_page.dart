@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/presentation/widgets/horizontal_food_tile.dart';
 import 'package:food_delivery_app/presentation/widgets/text_with_icon.dart';
@@ -32,8 +33,8 @@ class RestaurantDetailsPage extends StatelessWidget {
             children: [
               _buildHeader(),
               _buildDescription(),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 20.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -42,15 +43,15 @@ class RestaurantDetailsPage extends StatelessWidget {
                     Icons.restaurant_menu,
                     color: Colors.red,
                   ),
-                  const SizedBox(
-                    width: 4,
+                  SizedBox(
+                    width: 4.w,
                   ),
                   Text(
                     "MENU",
                     style: TextStyle(
                         color: Colors.black.withOpacity(0.8),
                         fontWeight: FontWeight.w500,
-                        fontSize: 25),
+                        fontSize: 25.sp),
                   )
                 ],
               ),
@@ -74,7 +75,7 @@ class RestaurantDetailsPage extends StatelessWidget {
 
   Widget _buildDescription() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0.r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +85,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             style: TextStyle(
               color: Colors.black.withOpacity(0.7),
               fontWeight: FontWeight.w900,
-              fontSize: 35,
+              fontSize: 35.sp,
             ),
           ),
           TextWithIcon(
@@ -94,13 +95,13 @@ class RestaurantDetailsPage extends StatelessWidget {
             ),
             text: restaurant.location,
           ),
-          const SizedBox(height: 15),
+          SizedBox(height: 15.h),
           Text(
             "About Restaurant",
             style: TextStyle(
               color: Colors.black.withOpacity(0.7),
               fontWeight: FontWeight.w900,
-              fontSize: 25,
+              fontSize: 25.sp,
             ),
           ),
           const Padding(
@@ -113,13 +114,13 @@ class RestaurantDetailsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               TextWithIcon(
-                icon: const Icon(
+                icon: Icon(
                   Icons.local_taxi,
-                  size: 30,
+                  size: 30.r,
                 ),
                 text: restaurant.deliveryTime.toString(),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               const TextWithIcon(
                 icon: Icon(
                   Icons.food_bank,
@@ -148,7 +149,7 @@ class RestaurantDetailsPage extends StatelessWidget {
           image: DecorationImage(
               image: AssetImage("assets/images/${restaurant.defaultImage}"),
               fit: BoxFit.cover)),
-      height: 280,
+      height: 280.h,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -157,12 +158,12 @@ class RestaurantDetailsPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-              height: 50,
-              decoration: const BoxDecoration(
+              height: 50.h,
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30.r),
+                  topRight: Radius.circular(30.r),
                 ),
               ),
             ),
@@ -170,13 +171,13 @@ class RestaurantDetailsPage extends StatelessWidget {
           Positioned(
             bottom: 0,
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black45, width: 1),
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(50)),
-              height: 100,
-              width: 100,
+              height: 100.h,
+              width: 100.w,
               child: Image.asset(
                 "assets/images/${restaurant.logo}",
                 fit: BoxFit.contain,

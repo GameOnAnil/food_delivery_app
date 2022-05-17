@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/presentation/screens/restaurant_detail_page.dart';
 
@@ -33,11 +34,11 @@ class RestaurantCard extends StatelessWidget {
               Image.asset(
                 "assets/images/${restaurant.defaultImage}",
                 fit: BoxFit.cover,
-                height: 150,
-                width: 250,
+                height: 150.h,
+                width: 250.w,
               ),
               Container(
-                width: 250,
+                width: 250.w,
                 decoration: BoxDecoration(
                     border: Border.all(width: 1, color: Colors.black38)),
                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -45,17 +46,17 @@ class RestaurantCard extends StatelessWidget {
                   children: [
                     Image.asset(
                       "assets/images/" + restaurant.logo,
-                      width: 50,
-                      height: 50,
+                      width: 50.w,
+                      height: 50.h,
                       fit: BoxFit.cover,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Container(
-                      height: 50,
-                      width: 1,
+                      height: 50.w,
+                      width: 1.w,
                       color: Colors.black.withOpacity(0.5),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

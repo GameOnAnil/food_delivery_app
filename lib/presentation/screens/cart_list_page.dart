@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/data/model/cart_item.dart';
+import 'package:food_delivery_app/presentation/screens/payment_screen.dart';
 import 'package:food_delivery_app/presentation/widgets/cart_item_tile.dart';
 import 'package:food_delivery_app/riverpod/notifier/cart_change_notifier.dart';
 import 'package:food_delivery_app/riverpod/providers/providers.dart';
@@ -149,9 +150,17 @@ Container _buildBottomSheet(List<CartItem>? cartList, BuildContext context) {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.orange.withOpacity(0.8)),
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              settings: const RouteSettings(name: "/payment"),
+                              builder: (context) => PaymentScreen(
+                                    totalAmount: totalSum.toString(),
+                                  )));
+                    },
                     child: const Text(
-                      "Confirm Order",
+                      "Checkout",
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,

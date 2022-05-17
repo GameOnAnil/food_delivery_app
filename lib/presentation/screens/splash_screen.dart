@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_delivery_app/presentation/screens/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -42,25 +44,25 @@ class _SplashScreenState extends State<SplashScreen>
           scale: _animation,
           child: Center(
             child: SizedBox(
-              width: 200,
-              height: 200,
+              width: 200.w,
+              height: 200.h,
               child: Image.asset("assets/images/burger.png"),
             ),
           ),
         ),
-        const Text(
+        Text(
           "F00D",
           style: TextStyle(
               fontFamily: "GreatVibes",
-              fontSize: 60,
+              fontSize: 60.sp,
               color: Colors.red,
               fontWeight: FontWeight.bold),
         ),
-        const Text(
+        Text(
           "Delivary App",
           style: TextStyle(
               fontFamily: "GreatVibes",
-              fontSize: 55,
+              fontSize: 55.sp,
               color: Colors.orange,
               fontWeight: FontWeight.bold),
         ),
@@ -72,11 +74,11 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 4000));
     _animationController.stop();
 
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => const AuthenticationWrapper(),
-    //   ),
-    // );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ),
+    );
   }
 }

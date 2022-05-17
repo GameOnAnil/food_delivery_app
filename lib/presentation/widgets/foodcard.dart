@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/presentation/screens/food_detail_page.dart';
 
@@ -46,10 +47,11 @@ class FoodCard extends StatelessWidget {
                   children: [
                     Text(
                       food.name,
-                      maxLines: 2,
-                      style: const TextStyle(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25,
+                          fontSize: 25.sp,
                           color: Colors.white),
                     ),
                     Row(
@@ -62,8 +64,8 @@ class FoodCard extends StatelessWidget {
                           child: Text(
                             ": " + food.available,
                             maxLines: 2,
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 20.sp, color: Colors.white),
                           ),
                         ),
                       ],
@@ -75,23 +77,25 @@ class FoodCard extends StatelessWidget {
                           Icons.location_city,
                           color: Colors.white,
                         ),
-                        const Text(
+                        Text(
                           ": ",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style:
+                              TextStyle(fontSize: 20.sp, color: Colors.white),
                         ),
                         Flexible(
                           child: Text(
                             food.address,
-                            maxLines: 2,
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.white),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                TextStyle(fontSize: 20.sp, color: Colors.white),
                           ),
                         ),
                       ],
                     ),
-                    const Text(
+                    Text(
                       "☆ ☆ ☆ ☆ ☆",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 20.sp, color: Colors.white),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,8 +105,8 @@ class FoodCard extends StatelessWidget {
                         ),
                         Text(
                           "Rs. ${food.price}",
-                          style: const TextStyle(
-                              fontSize: 20,
+                          style: TextStyle(
+                              fontSize: 20.sp,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         )

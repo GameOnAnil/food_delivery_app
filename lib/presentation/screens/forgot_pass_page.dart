@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/riverpod/providers/providers.dart';
 
@@ -21,8 +22,8 @@ class ForgotPassPage extends ConsumerWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(children: [
               SizedBox(
-                  height: 250,
-                  width: MediaQuery.of(context).size.width,
+                  height: 250.h,
+                  width: double.infinity,
                   child: Image.asset("assets/images/forgot.png")),
               TextFormField(
                 controller: emailController,
@@ -37,12 +38,12 @@ class ForgotPassPage extends ConsumerWidget {
                   label: Text("Enter Email"),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 10.h,
               ),
               SizedBox(
-                height: 55,
-                width: MediaQuery.of(context).size.width * .8,
+                height: 55.h,
+                width: MediaQuery.of(context).size.width.w * .8,
                 child: ElevatedButton(
                   onPressed: () async {
                     final isValid = _globalKey.currentState!.validate();

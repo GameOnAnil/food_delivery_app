@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery_app/data/model/food.dart';
 import 'package:food_delivery_app/data/model/restaurant.dart';
 import 'package:food_delivery_app/presentation/screens/cart_list_page.dart';
-
 import 'package:food_delivery_app/presentation/screens/login_page.dart';
 import 'package:food_delivery_app/presentation/widgets/foodcard.dart';
 import 'package:food_delivery_app/presentation/widgets/restaurant_card.dart';
@@ -19,16 +19,16 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        leadingWidth: 80,
+        leadingWidth: 80.w,
         leading: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Center(
             child: CircleAvatar(
-              radius: 23,
+              radius: 23.r,
               backgroundColor: Colors.black.withOpacity(0.4),
-              child: const CircleAvatar(
-                radius: 22,
-                backgroundImage: AssetImage("assets/images/profile.PNG"),
+              child: CircleAvatar(
+                radius: 22.r,
+                backgroundImage: const AssetImage("assets/images/profile.PNG"),
               ),
             ),
           ),
@@ -39,13 +39,14 @@ class HomePage extends ConsumerWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
+                    settings: const RouteSettings(name: "/cartlist"),
                     builder: (context) => const CartListPage(),
                   ));
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.shopping_cart,
               color: Colors.black,
-              size: 30,
+              size: 30.r,
             ),
           ),
           IconButton(
@@ -63,8 +64,8 @@ class HomePage extends ConsumerWidget {
               color: Colors.black,
             ),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            width: 10.w,
           ),
         ],
       ),
@@ -76,13 +77,13 @@ class HomePage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _header(),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.h,
                 ),
                 _restaurantPart(),
                 _specialOrderPart(),
-                const SizedBox(
-                  height: 15,
+                SizedBox(
+                  height: 15.h,
                 ),
                 _kfcSpecialPart(),
               ],
@@ -97,12 +98,14 @@ class HomePage extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             "🍟 KFC Special 🍟",
             style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 20.sp),
           ),
         ),
         Consumer(
@@ -120,7 +123,8 @@ class HomePage extends ConsumerWidget {
                           onRefresh: () {
                             return ref.refresh(kfcFutureProvider.future);
                           },
-                          child: _buildFoodListView(context, foods, 280, 200));
+                          child:
+                              _buildFoodListView(context, foods, 280.h, 200.w));
                     }
 
                     return const Text("No Data");
@@ -136,12 +140,14 @@ class HomePage extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             "🔥Special Orders🔥",
             style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 20.sp),
           ),
         ),
         Consumer(
@@ -159,7 +165,8 @@ class HomePage extends ConsumerWidget {
                           onRefresh: () {
                             return ref.refresh(foodFutureProvider.future);
                           },
-                          child: _buildFoodListView(context, foods, 280, 200));
+                          child:
+                              _buildFoodListView(context, foods, 280.h, 200.w));
                     }
 
                     return const Text("No Data");
@@ -175,12 +182,14 @@ class HomePage extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             "🍔 Restaurants 🍔",
             style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 20.sp),
           ),
         ),
         //_buildRestaurantList(context,restaurants,),
@@ -200,7 +209,7 @@ class HomePage extends ConsumerWidget {
                             return ref.refresh(restaurantFutureProvider.future);
                           },
                           child: _buildRestaurantList(
-                              context, restaurants, 240, 200));
+                              context, restaurants, 240.h, 200.w));
                     }
                     return const Text("No Data");
                   },
@@ -222,7 +231,7 @@ class HomePage extends ConsumerWidget {
             style: TextStyle(
                 color: Colors.blueGrey[800],
                 fontWeight: FontWeight.bold,
-                fontSize: 28),
+                fontSize: 28.sp),
           ),
         ),
         Padding(
@@ -232,7 +241,7 @@ class HomePage extends ConsumerWidget {
             style: TextStyle(
                 color: Colors.blueGrey[800],
                 fontWeight: FontWeight.bold,
-                fontSize: 28),
+                fontSize: 28.sp),
           ),
         ),
       ],

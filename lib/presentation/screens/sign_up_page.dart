@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/riverpod/notifier/signup_notifier.dart';
 
@@ -95,7 +96,7 @@ class SignUpPage extends ConsumerWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 250,
+                  height: 250.h,
                   width: MediaQuery.of(context).size.width,
                   child: Image.asset("assets/images/signup.png"),
                 ),
@@ -116,7 +117,7 @@ class SignUpPage extends ConsumerWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   child: TextFormField(
                     validator: ((value) {
                       if (value!.isEmpty || !value.contains('@')) {
@@ -168,18 +169,18 @@ class SignUpPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
+                SizedBox(
+                  height: 15.h,
                 ),
                 Container(
-                    height: 50,
-                    width: 250,
+                    height: 50.h,
+                    width: 250.w,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
-                      child: const Text(
+                      child: Text(
                         'Sign Up',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18.sp, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         validate(ref);
