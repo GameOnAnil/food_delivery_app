@@ -1,6 +1,6 @@
 # Food Delivery App
 <img src = "https://github.com/gameonanil/food_delivery_app/blob/master/assets/banner/d1.png?raw=true" width="700"/>
-<img src = "https://github.com/gameonanil/food_delivery_app/blob/master/assets/banner/d3.png?raw=true" width="700"/>
+<img src = "https://github.com/gameonanil/food_delivery_app/blob/master/assets/banner/d2.png?raw=true" width="700"/>
 <img src = "https://github.com/gameonanil/food_delivery_app/blob/master/assets/banner/d3.png?raw=true" width="400"/>
 This is a Food Delivery App that i built in flutter. It has some features like
 - User Authentication: Jwt token auth and firebase google sign in.
