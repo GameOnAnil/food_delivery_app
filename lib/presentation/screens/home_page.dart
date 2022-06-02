@@ -124,7 +124,7 @@ class HomePage extends ConsumerWidget {
                             return ref.refresh(kfcFutureProvider.future);
                           },
                           child:
-                              _buildFoodListView(context, foods, 280.h, 200.w));
+                              _buildFoodListView(context, foods, 270.h, 185.w));
                     }
 
                     return const Text("No Data");
@@ -166,7 +166,7 @@ class HomePage extends ConsumerWidget {
                             return ref.refresh(foodFutureProvider.future);
                           },
                           child:
-                              _buildFoodListView(context, foods, 280.h, 200.w));
+                              _buildFoodListView(context, foods, 270.h, 185.w));
                     }
 
                     return const Text("No Data");

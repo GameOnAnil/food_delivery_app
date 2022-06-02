@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_delivery_app/firebase_options.dart';
 import 'package:food_delivery_app/presentation/screens/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/presentation/screens/splash_screen.dart';
@@ -13,7 +14,9 @@ Widget defaultHome = const SplashScreen();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await MySharedPreference.init();
 
   bool isLoggedIn = MySharedPreference.userExists();

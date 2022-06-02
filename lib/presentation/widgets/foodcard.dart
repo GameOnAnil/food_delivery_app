@@ -51,7 +51,7 @@ class FoodCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.sp,
+                          fontSize: 24.sp,
                           color: Colors.white),
                     ),
                     Row(
@@ -60,12 +60,20 @@ class FoodCard extends StatelessWidget {
                           Icons.electric_scooter,
                           color: Colors.white,
                         ),
-                        Flexible(
+                        Text(
+                          ": ",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
                           child: Text(
-                            ": " + food.available,
+                            food.available,
                             maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style:
-                                TextStyle(fontSize: 20.sp, color: Colors.white),
+                                TextStyle(fontSize: 18.sp, color: Colors.white),
                           ),
                         ),
                       ],
@@ -79,23 +87,25 @@ class FoodCard extends StatelessWidget {
                         ),
                         Text(
                           ": ",
-                          style:
-                              TextStyle(fontSize: 20.sp, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Colors.white,
+                          ),
                         ),
-                        Flexible(
+                        Expanded(
                           child: Text(
                             food.address,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style:
-                                TextStyle(fontSize: 20.sp, color: Colors.white),
+                                TextStyle(fontSize: 18.sp, color: Colors.white),
                           ),
                         ),
                       ],
                     ),
                     Text(
                       "☆ ☆ ☆ ☆ ☆",
-                      style: TextStyle(fontSize: 20.sp, color: Colors.white),
+                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

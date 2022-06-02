@@ -84,7 +84,7 @@ class _FoodDetailPageState extends ConsumerState<FoodDetailPage> {
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.7),
                     fontWeight: FontWeight.w900,
-                    fontSize: 35.sp,
+                    fontSize: 32.sp,
                   ),
                 ),
                 TextWithIcon(
