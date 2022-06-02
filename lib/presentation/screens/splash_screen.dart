@@ -34,40 +34,41 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 150,
-        ),
-        ScaleTransition(
-          scale: _animation,
-          child: Center(
-            child: SizedBox(
-              width: 200.w,
-              height: 200.h,
-              child: Image.asset("assets/images/burger.png"),
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 150,
             ),
-          ),
-        ),
-        Text(
-          "F00D",
-          style: TextStyle(
-              fontFamily: "GreatVibes",
-              fontSize: 60.sp,
-              color: Colors.red,
-              fontWeight: FontWeight.bold),
-        ),
-        Text(
-          "Delivary App",
-          style: TextStyle(
-              fontFamily: "GreatVibes",
-              fontSize: 55.sp,
-              color: Colors.orange,
-              fontWeight: FontWeight.bold),
-        ),
-      ],
-    ));
+            ScaleTransition(
+              scale: _animation,
+              child: Center(
+                child: SizedBox(
+                  width: 200.w,
+                  height: 200.h,
+                  child: Image.asset("assets/images/burger.png"),
+                ),
+              ),
+            ),
+            Text(
+              "F00D",
+              style: TextStyle(
+                  fontFamily: "GreatVibes",
+                  fontSize: 60.sp,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Delivary App",
+              style: TextStyle(
+                  fontFamily: "GreatVibes",
+                  fontSize: 55.sp,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ));
   }
 
   void _navigateHome() async {
